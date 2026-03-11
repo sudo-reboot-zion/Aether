@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Introduction",
+    "content": "# Aether Guest Guide",
+    "section": "",
+    "source": "guest.md"
+  },
+  {
+    "title": "How to Book",
+    "content": "1. **Discover**: Ask our AI assistant to find properties matching your requirements (e.g., \"Find me a 2-bedroom apartment in Paris under $100\").\n2. **Select Dates**: Pick your check-in and check-out dates.\n3. **Pay Securely**: Your payment is securely escrowed until check-in time.",
+    "section": "How to Book",
+    "source": "guest.md"
+  },
+  {
+    "title": "Escrow Protection",
+    "content": "Your money is not immediately given to the host. It is held securely in escrow. At check-in time, the payment is automatically released. This protects you from fraudulent listings.",
+    "section": "Escrow Protection",
+    "source": "guest.md"
+  },
+  {
+    "title": "Cancellation Policy",
+    "content": "- **More than 7 days before check-in**: 100% refund.\n- **3-7 days before**: 50% refund.\n- **Less than 3 days**: 0% refund.",
+    "section": "Cancellation Policy",
+    "source": "guest.md"
+  },
+  {
+    "title": "Troubleshooting",
+    "content": "If a host is unresponsive, wait 24 hours. If it's less than 7 days before your trip, please raise a support ticket and Aether support will intervene or refund you.",
+    "section": "Troubleshooting",
+    "source": "guest.md"
+  },
+  {
+    "title": "Introduction",
+    "content": "# Aether FAQ",
+    "section": "",
+    "source": "faq.md"
+  },
+  {
+    "title": "What is Aether?",
+    "content": "Aether is an AI-powered property rental platform that connects property owners (hosts) with travelers (guests). We use advanced AI to assist in discovery, booking, and support, providing a seamless experience.",
+    "section": "What is Aether?",
+    "source": "faq.md"
+  },
+  {
+    "title": "What are the costs?",
+    "content": "Unlike traditional platforms that charge 15-20% in fees, Aether charges a flat 2% fee to guests, and 0% to hosts. This lets hosts keep 100% of their earnings while guests save significantly on booking costs.",
+    "section": "What are the costs?",
+    "source": "faq.md"
+  },
+  {
+    "title": "Is my data secure?",
+    "content": "Yes. Aether employs strict data privacy policies. We do not sell user data. Our AI models are private and do not train on your personal data.",
+    "section": "Is my data secure?",
+    "source": "faq.md"
+  },
+  {
+    "title": "I have a dispute. What do I do?",
+    "content": "Disputes can be raised within 24 hours of checking out. You just need to submit photos and a description of the issue to our support team. The team will review the claim and issue an appropriate refund automatically via our secure escrow system.",
+    "section": "I have a dispute. What do I do?",
+    "source": "faq.md"
+  },
+  {
+    "title": "Introduction",
+    "content": "# Aether Host Guide",
+    "section": "",
+    "source": "host.md"
+  },
+  {
+    "title": "Why Host on Aether?",
+    "content": "1. **0% Host Fees**: You keep 100% of your listed price. We don't take a cut of your earnings.\n2. **AI Support**: Our AI assistant helps answer common guest questions about your property, saving you time.\n3. **Secure Escrow**: You are guaranteed payment upon the guest's check-in via our automated escrow system, protecting you from chargebacks.",
+    "section": "Why Host on Aether?",
+    "source": "host.md"
+  },
+  {
+    "title": "How to List Your Property",
+    "content": "1. Create an account.\n2. Click \"List Property\".\n3. Provide high-quality photos, write a detailed description, list your amenities, and set your nightly price.\n4. Publish your listing, which instantly goes live on the platform!",
+    "section": "How to List Your Property",
+    "source": "host.md"
+  },
+  {
+    "title": "Receiving Payments",
+    "content": "Payments are securely held when the guest books and instantly released to your payout method on the day of check-in.",
+    "section": "Receiving Payments",
+    "source": "host.md"
+  },
+  {
+    "title": "Managing Bookings",
+    "content": "You can manage all your reservations from the Dashboard. You have up to 24 hours to respond to guest inquiries before they are permitted to cancel for a full refund.",
+    "section": "Managing Bookings",
+    "source": "host.md"
+  }
+]
