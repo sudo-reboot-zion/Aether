@@ -36,7 +36,7 @@ const initialState: BookingChatState = {
 export const fetchSessions = createAsyncThunk(
     'bookingChat/fetchSessions',
     async (userAddress: string) => {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://aether-ogor.onrender.com';
         const response = await fetch(`${apiUrl}/ws/chat/sessions/${userAddress}`);
         if (!response.ok) throw new Error('Failed to fetch chat sessions');
         return (await response.json()) as ChatSession[];

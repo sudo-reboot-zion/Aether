@@ -42,7 +42,7 @@ export const sendMessageAPI = createAsyncThunk<
             const { conversationId } = getState().chat;
 
             // Hardcoded backend URL due to standalone nature. Fallback to var if provided.
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://aether-ogor.onrender.com';
 
             const response = await fetch(`${apiUrl}/api/chat/`, {
                 method: 'POST',

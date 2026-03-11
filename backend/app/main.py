@@ -47,15 +47,15 @@ app = FastAPI(
     redirect_slashes=False  # Disable automatic trailing slash redirects
 )
 
-# Configure CORS - Allow all origins for Vercel preview deployments
-# Note: Using "*" is safe here because:
-# 1. The API doesn't use authentication cookies
-# 2. All property data is public blockchain data
-# 3. Vercel creates many preview URLs that are hard to whitelist
+# Configure CORS - Allow production frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    allow_credentials=False,  # Must be False when using "*"
+    allow_origins=[
+        "http://localhost:3000",
+        "https://aether-iota-one.vercel.app",
+        "https://aether-iota-one.vercel.app/"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

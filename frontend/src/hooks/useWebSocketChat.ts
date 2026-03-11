@@ -25,7 +25,7 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
         const fetchHistory = async () => {
             setIsLoadingHistory(true);
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://aether-ogor.onrender.com';
                 // New isolated history endpoint
                 const response = await fetch(`${apiUrl}/ws/chat/history/${bookingId}/${userAddress}/${partnerAddress}`);
                 if (response.ok) {
@@ -70,8 +70,8 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
 
         const envWsUrl = process.env.NEXT_PUBLIC_WS_URL;
         const fallbackWsUrl = typeof window !== 'undefined'
-            ? `ws://${window.location.hostname}:8000`
-            : 'ws://localhost:8000';
+            ? `wss://aether-ogor.onrender.com`
+            : 'wss://aether-ogor.onrender.com';
         const wsUrl = envWsUrl || fallbackWsUrl;
 
         // URL format: /{booking_id}/{user_address}/{partner_address}
