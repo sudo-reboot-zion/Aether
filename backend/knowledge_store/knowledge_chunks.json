@@ -1,6 +1,96 @@
 [
   {
     "title": "Introduction",
+    "content": "# StackNStay Knowledge Base",
+    "section": "",
+    "source": "overview.md"
+  },
+  {
+    "title": "What is StackNStay?",
+    "content": "StackNStay is an AI-powered property rental platform that connects property owners (hosts) with travelers (guests) seamlessly.",
+    "section": "What is StackNStay?",
+    "source": "overview.md"
+  },
+  {
+    "title": "Key Features:",
+    "content": "- **Low Fees**: We offer highly competitive platform fees compared to traditional competitors.\n- **Secure Escrow**: Your payment is held securely in our system until after you check-in.\n- **AI-Powered**: Smart chat agents help you find the perfect property or answer any questions you have.\n- **Direct Connection**: Connect directly with hosts for your inquiries.\n\n---",
+    "section": "What is StackNStay?",
+    "source": "overview.md"
+  },
+  {
+    "title": "Why So Low?",
+    "content": "Traditional platforms charge 15-20% in fees. StackNStay leverages AI automations to handle customer service and booking logistics, keeping overhead drastically lower.\n\n**Fee Breakdown:**\n- **Guest Fee**: 2% of booking total\n- **Host Fee**: 0% (hosts keep 100% of their listed price!)\n- **Traditional Platforms**: 15-20% total fees\n\n---",
+    "section": "Platform Fees",
+    "source": "overview.md"
+  },
+  {
+    "title": "Step-by-Step Process:",
+    "content": "1. **Browse Properties**: Ask our AI assistant to find properties by location, price, or amenities.\n2. **Select Dates**: Choose check-in and check-out dates.\n3. **Book & Pay**: Payment goes into our secure escrow system.\n4. **Confirmation**: Booking is confirmed immediately.\n5. **Check-in**: At check-in time, payment releases to the host.\n6. **Check-out**: Leave a review to help future guests!",
+    "section": "How Booking Works",
+    "source": "overview.md"
+  },
+  {
+    "title": "Escrow Protection:",
+    "content": "Your payment is held safely until check-in. This protects both guests and hosts:\n\n**For Guests:**\n- Money held safely until check-in\n- Can cancel for refund depending on the cancellation policy\n- Dispute resolution if property doesn't match listing\n\n**For Hosts:**\n- Guaranteed payment after check-in\n- Protected from fraudulent chargebacks\n- Automatic payment release\n\n---",
+    "section": "How Booking Works",
+    "source": "overview.md"
+  },
+  {
+    "title": "Refund Schedule:",
+    "content": "**More than 7 days before check-in:**\n- 100% refund (minus a small processing fee)\n\n**3-7 days before check-in:**\n- 50% refund\n\n**Less than 3 days before check-in:**\n- 0% refund (host keeps full amount)\n\n**After check-in:**\n- No refunds (payment already released to host)",
+    "section": "Cancellation Policy",
+    "source": "overview.md"
+  },
+  {
+    "title": "How to Cancel:",
+    "content": "1. Go to your \"My Bookings\" page\n2. Find your booking\n3. Click \"Cancel Booking\"\n4. Automated refunds are processed instantly to your payment method\n\n---",
+    "section": "Cancellation Policy",
+    "source": "overview.md"
+  },
+  {
+    "title": "When to Raise a Dispute:",
+    "content": "- Property doesn't match listing\n- Serious cleanliness issues\n- Safety concerns\n- Host no-show or locked out\n- Major amenities missing",
+    "section": "Dispute Resolution",
+    "source": "overview.md"
+  },
+  {
+    "title": "How Disputes Work:",
+    "content": "1. **Guest raises dispute** (during stay or within 24 hours of check-out)\n2. **Evidence submitted**: Photos, messages, descriptions\n3. **Admin reviews**: Platform support team examines evidence\n4. **Decision made**: Full refund, partial refund, or no refund\n5. **Resolution**: Refund processed automatically if approved\n\n---",
+    "section": "Dispute Resolution",
+    "source": "overview.md"
+  },
+  {
+    "title": "For Guests:",
+    "content": "1. **Create an Account**: Sign up directly via the StackNStay portal.\n2. **Add Payment Method**: Securely add a credit or debit card.\n3. **Start Booking**: Chat with our AI or browse the listings to find the perfect stay!",
+    "section": "Getting Started",
+    "source": "overview.md"
+  },
+  {
+    "title": "For Hosts:",
+    "content": "1. **Create an Account**: Register as a host.\n2. **Create Listing**:\n   - Click \"List Property\"\n   - Upload high-quality photos\n   - Set price \n   - Add amenities and description\n3. **Publish**: Your listing will go live immediately.\n4. **Manage Bookings**:\n   - View bookings in your dashboard\n   - Payments sent out after check-in\n   - Respond to guest messages\n\n---",
+    "section": "Getting Started",
+    "source": "overview.md"
+  },
+  {
+    "title": "\"Host isn't responding\"",
+    "content": "**Solution:**\n- Hosts have 24 hours to respond to inquiries.\n- If no response and more than 7 days before check-in: Cancel for a full refund.\n- If less than 7 days: Contact StackNStay support for assistance.",
+    "section": "Common Issues",
+    "source": "overview.md"
+  },
+  {
+    "title": "\"Property doesn't match listing\"",
+    "content": "**Solution:**\n- Take photos immediately.\n- Raise a dispute within 24 hours of check-out.\n- Provide evidence (photos, descriptions).\n- Support will review and determine a fair refund.\n\n---",
+    "section": "Common Issues",
+    "source": "overview.md"
+  },
+  {
+    "title": "FAQ",
+    "content": "**Q: Is my data private?**  \nA: Yes! We stringently protect user data and do not sell your personal information to third parties.\n\n**Q: What happens if the host cancels?**  \nA: You get a full refund automatically.\n\n**Q: Can I list multiple properties?**  \nA: Yes! There is no limit on listings under a single host account.\n\n**Q: How do I become a host?**  \nA: Sign up and click \"List Property\". It's that simple!",
+    "section": "FAQ",
+    "source": "overview.md"
+  },
+  {
+    "title": "Introduction",
     "content": "# Aether Guest Guide",
     "section": "",
     "source": "guest.md"
