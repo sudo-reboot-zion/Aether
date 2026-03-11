@@ -15,7 +15,8 @@ ENV/
 .env.local
 
 # Vector store data
-data/
+# Vector store data
+/data/
 !app/data/knowledge/
 *.bin
 property_metadata.json
