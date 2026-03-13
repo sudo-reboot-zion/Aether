@@ -8,16 +8,17 @@ interface ProfileImageProps {
     isUploading: boolean;
     onUploadClick: () => void;
     address?: string;
+    isCollapsed?: boolean;
 }
 
-const ProfileImage: React.FC<ProfileImageProps> = ({ profileImage, isUploading, onUploadClick, address }) => {
+const ProfileImage: React.FC<ProfileImageProps> = ({ profileImage, isUploading, onUploadClick, address, isCollapsed }) => {
     const isDefault = profileImage === '/images/generic-avatar.png';
 
     return (
-        <div className="relative w-[88px] h-[88px] group">
+        <div className={`relative transition-all duration-500 ${isCollapsed ? 'w-12 h-12' : 'w-[88px] h-[88px]'} group`}>
             <div className="w-full h-full rounded-full border-[3px] border-white/10 overflow-hidden relative bg-white/5">
                 {isDefault && address ? (
-                    <Identicon address={address} size={88} className="w-full h-full" />
+                    <Identicon address={address} size={isCollapsed ? 48 : 88} className="w-full h-full" />
                 ) : (
                     <SafeImage
                         src={profileImage}

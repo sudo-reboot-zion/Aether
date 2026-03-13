@@ -36,10 +36,6 @@ export interface DashboardStatsProps {
     badges?: any[];
 }
 
-export interface NavDockProps {
-    activeItem: string;
-    setActiveItem: (id: string) => void;
-}
 
 export interface StatCardProps {
     label: string;

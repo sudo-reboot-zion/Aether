@@ -41,7 +41,7 @@ function ProfileContent() {
                     onComplete={() => setIsTabLoading(false)}
                 />
             )}
-            <div className="w-[360px] flex-shrink-0 h-full">
+            <div className="flex-shrink-0 h-full transition-all duration-300">
                 <ProfileSidebar activeTab={activeTab} setActiveTab={handleTabChange} />
             </div>
 

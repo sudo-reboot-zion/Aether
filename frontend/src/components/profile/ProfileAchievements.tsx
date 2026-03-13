@@ -5,15 +5,18 @@ interface ProfileAchievementsProps {
     persona: 'GUEST' | 'HOST';
     badges: any[];
     badgeTypes: any[];
+    isCollapsed?: boolean;
 }
 
-const ProfileAchievements: React.FC<ProfileAchievementsProps> = ({ persona, badges, badgeTypes }) => {
+const ProfileAchievements: React.FC<ProfileAchievementsProps> = ({ persona, badges, badgeTypes, isCollapsed }) => {
     return (
-        <div className="py-6 border-y border-white/10">
-            <div className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">
-                {persona === 'HOST' ? 'Host Reputation' : 'Traveler Achievements'} ({badges.length})
-            </div>
-            <div className="flex flex-wrap gap-3">
+        <div className={`py-6 border-y border-white/10 ${isCollapsed ? 'flex justify-center' : ''}`}>
+            {!isCollapsed && (
+                <div className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4">
+                    {persona === 'HOST' ? 'Host Reputation' : 'Traveler Achievements'} ({badges.length})
+                </div>
+            )}
+            <div className={`flex flex-wrap gap-3 ${isCollapsed ? 'flex-col items-center' : ''}`}>
                 {badges.length === 0 ? (
                     <div className="text-[11px] text-white/30 italic">No accolades yet...</div>
                 ) : (

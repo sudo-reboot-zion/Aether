@@ -11,6 +11,7 @@ interface EscrowListProps {
     handleDispute: (id: number) => void;
     handleResolveDispute: (bookingId: number) => void;
     handleReview?: (booking: any) => void;
+    isCollapsed?: boolean;
 }
 
 const EscrowList: React.FC<EscrowListProps> = ({
@@ -20,63 +21,65 @@ const EscrowList: React.FC<EscrowListProps> = ({
     handleRelease,
     handleDispute,
     handleResolveDispute,
-    handleReview,
+    handleReview
 }) => {
+    const hasPending = persona === 'HOST' ? hostRequests.length > 0 : myTrips.length > 0;
+    const count = persona === 'HOST' ? hostRequests.length : myTrips.length;
+
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <div className="text-xs uppercase tracking-widest text-[var(--t-secondary)] font-semibold">
-                    {persona === 'HOST' ? 'Reservation Requests' : 'Active Escrows'}
+        <div className="bg-white/60 backdrop-blur-md border border-black/5 rounded-[32px] p-8 shadow-sm">
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-3">
+                    <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--t-primary)]">
+                        {persona === 'HOST' ? 'Pending Actions' : 'Active Escrows'}
+                    </h2>
+                    {count > 0 && (
+                        <div className="bg-[var(--c-blue-azure)] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center justify-center">
+                            {count}
+                        </div>
+                    )}
                 </div>
-                <div className={`w-2 h-2 rounded-full ${persona === 'HOST' ? (hostRequests.length > 0 ? 'bg-amber-500 animate-pulse' : 'bg-gray-300') : (myTrips.length > 0 ? 'bg-emerald-500' : 'bg-gray-300')}`} />
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
                 {persona === 'HOST' ? (
                     hostRequests.length === 0 ? (
-                        <EmptyState
-                            compact
-                            title="No Pending Requests"
-                            description="When travelers request to stay at your sanctuaries, they will appear here for your review."
-                        />
+                        <div className="py-8 text-center text-[var(--t-secondary)] text-sm font-light italic">
+                            No requests requiring action.
+                        </div>
                     ) : (
                         hostRequests.map((booking, idx) => (
                             <RequestCard
-                                key={`req-${idx}`}
-                                user={booking.guest.slice(0, 10) + '...'}
-                                type={booking.status === 'completed' ? 'completed' : 'booking'}
+                                key={idx}
+                                user={booking.guest}
+                                type="action_required"
                                 details={{
-                                    dates: `Block #${booking.checkIn}`,
-                                    guests: '1',
-                                    price: booking.totalAmount / 1000000,
-                                    status: booking.status === 'completed' ? 'Payment Received' : 'Active Stay'
+                                    dates: `Block ${booking.checkIn}`,
+                                    price: `${(booking.totalAmount / 1_000_000).toFixed(2)} STX`
                                 }}
+                                onResolveDispute={() => handleResolveDispute(booking.id)}
                             />
                         ))
                     )
                 ) : (
                     myTrips.length === 0 ? (
-                        <EmptyState
-                            compact
-                            title="No Active Escrows"
-                            description="Your secure blockchain payments for upcoming stays will be managed here."
-                        />
+                        <div className="py-8 text-center text-[var(--t-secondary)] text-sm font-light italic">
+                            No active stays or escrows.
+                        </div>
                     ) : (
                         myTrips.map((booking, idx) => (
                             <RequestCard
-                                key={`trip-${idx}`}
-                                user={`Host: ${booking.host.slice(0, 8)}...`}
-                                type={booking.status === 'completed' ? 'completed' : (booking.status === 'confirmed' ? 'action_required' : 'booking')}
+                                key={idx}
+                                user={booking.host}
+                                type={booking.status === 'completed' ? 'completed' : 'booking'}
                                 details={{
                                     dates: `Block ${booking.checkIn}`,
-                                    guests: 'Verified',
-                                    price: booking.totalAmount / 1000000,
-                                    status: booking.status
+                                    price: `${(booking.totalAmount / 1_000_000).toFixed(2)} STX`,
+                                    status: booking.status === 'completed' ? 'STAY COMPLETED' : 'ACTIVE STAY'
                                 }}
                                 onRelease={() => handleRelease(booking.id)}
                                 onDispute={() => handleDispute(booking.id)}
-                                onResolveDispute={() => handleResolveDispute(booking.id)}
-                                onReview={handleReview && !booking.hasReviewed ? () => handleReview(booking) : undefined}
+                                onReview={booking.status === 'completed' && !booking.hasReviewed ? () => handleReview?.(booking) : undefined}
                             />
                         ))
                     )

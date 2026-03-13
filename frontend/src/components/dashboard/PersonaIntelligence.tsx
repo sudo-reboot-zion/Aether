@@ -1,3 +1,7 @@
+"use client";
+
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Star, Award, ShieldCheck, TrendingUp, Check } from 'lucide-react';
 import { Persona } from '@/redux/slices/redux.types';
 
@@ -12,101 +16,102 @@ const PersonaIntelligence: React.FC<PersonaIntelligenceProps> = ({
     persona,
     stats,
     badges = [],
-    totalEarned = 0,
+    totalEarned = 0
 }) => {
     // averageRating is stored as (rating * 100) on-chain
     const avgRating = stats ? (stats.averageRating / 100) : 0;
     const totalReviews = stats?.totalReviews ?? 0;
-    const badgeCount = badges.length;
 
-    const tier = avgRating >= 4.5 ? 'Superhost' : avgRating >= 3.5 ? 'Trusted' : avgRating > 0 ? 'New Host' : 'Getting Started';
-    const tierColor = avgRating >= 4.5 ? '#1B4066' : avgRating >= 3.5 ? '#3D7CB8' : '#9FBAD1';
+    const tier = totalReviews > 50 ? 'Elite' : totalReviews > 10 ? 'Veteran' : 'Newcomer';
 
-    // SVG ring calc
-    const r = 26;
-    const circumference = 2 * Math.PI * r;
-    const ratingFraction = Math.min(avgRating / 5, 1);
+    // SVG ring calc // Old variable name was 'r'
+    // const r = 26;
+    // const circumference = 2 * Math.PI * r;
+    // const ratingFraction = Math.min(avgRating / 5, 1);
+    // const ringOffset = circumference * (1 - ratingFraction);
+
+    // Circular progress math // New variable name is 'radius'
+    const radius = 24;
+    const circumference = 2 * Math.PI * radius;
+    const ratingFraction = avgRating / 5;
     const ringOffset = circumference * (1 - ratingFraction);
 
     return (
-        <div className="mt-auto">
-            <div className="text-xs uppercase tracking-widest text-[var(--t-secondary)] font-semibold mb-4">
+        <div className="bg-white/60 backdrop-blur-md border border-black/5 rounded-[32px] p-8 shadow-sm">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--t-primary)] font-bold mb-8">
                 Persona Intelligence
             </div>
 
-            <div className="rounded-[24px] overflow-hidden border border-white/20 shadow-lg shadow-[rgba(27,64,102,0.08)]">
-                <div
-                    className="px-5 py-4 flex items-center gap-4"
-                    style={{ background: `linear-gradient(135deg, ${tierColor} 0%, #1B4066 100%)` }}
-                >
-                    <div className="relative shrink-0">
-                        <svg width="64" height="64" viewBox="0 0 64 64">
-                            <circle cx="32" cy="32" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="5" />
+            <div className="flex flex-col gap-8">
+                <div className="flex items-center gap-6">
+                    <div className="relative w-16 h-16 flex items-center justify-center">
+                        <svg className="w-full h-full -rotate-90">
                             <circle
-                                cx="32" cy="32" r={r}
-                                fill="none"
-                                stroke="white"
-                                strokeWidth="5"
-                                strokeLinecap="round"
-                                strokeDasharray={`${circumference}`}
-                                strokeDashoffset={ringOffset}
-                                style={{ transform: 'rotate(-90deg)', transformOrigin: '32px 32px', transition: 'stroke-dashoffset 1.2s ease' }}
+                                cx="32"
+                                cy="32"
+                                r={radius}
+                                className="fill-none stroke-black/5"
+                                strokeWidth="4"
+                            />
+                            <motion.circle
+                                cx="32"
+                                cy="32"
+                                r={radius}
+                                className="fill-none stroke-[var(--c-blue-azure)]"
+                                strokeWidth="4"
+                                strokeDasharray={circumference}
+                                initial={{ strokeDashoffset: circumference }}
+                                animate={{ strokeDashoffset: ringOffset }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
                             />
                         </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-white text-sm font-light leading-none">
-                                {totalReviews > 0 ? avgRating.toFixed(1) : '–'}
-                            </span>
-                            <Star size={8} className="text-white/60 mt-0.5" />
+                        <div className="absolute inset-0 flex items-center justify-center flex-col">
+                            <span className="text-sm font-bold">{avgRating.toFixed(1)}</span>
+                            <Star size={8} className="text-[var(--c-blue-azure)] fill-[var(--c-blue-azure)]" />
                         </div>
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                        <div className="text-white text-sm font-medium truncate">{tier}</div>
-                        <div className="text-white/60 text-[10px] font-sans mt-0.5">
-                            {totalReviews > 0 ? `${totalReviews} verified review${totalReviews > 1 ? 's' : ''}` : 'No reviews yet'}
-                        </div>
-                        <div className="mt-2 flex items-center gap-1">
-                            {Array(5).fill(0).map((_, i) => (
+                    <div className="flex-1">
+                        <div className="text-lg font-serif tracking-tight text-[var(--t-primary)]">{tier} Persona</div>
+                        <div className="text-xs text-[var(--t-secondary)] font-sans">{totalReviews} Verified Transmissions</div>
+                        <div className="flex gap-1 mt-2">
+                            {[1, 2, 3, 4, 5].map((s) => (
                                 <Star
-                                    key={i}
+                                    key={s}
                                     size={10}
-                                    className={i < Math.round(avgRating) ? 'text-white' : 'text-white/20'}
-                                    fill={i < Math.round(avgRating) ? 'white' : 'transparent'}
+                                    className={`${s <= Math.round(avgRating) ? 'text-[var(--c-blue-azure)] fill-[var(--c-blue-azure)]' : 'text-black/10'}`}
                                 />
                             ))}
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white/50 grid grid-cols-3 divide-x divide-black/5">
-                    <div className="flex flex-col items-center gap-1 py-4 px-2">
-                        <Award size={14} className="text-[var(--c-blue-azure)]" />
-                        <span className="text-lg font-light text-[var(--t-primary)]">{badgeCount}</span>
-                        <span className="text-[9px] uppercase tracking-wider text-[var(--t-secondary)] font-sans text-center">Badges</span>
+                <div className="grid grid-cols-3 gap-1 bg-white/40 p-1 rounded-2xl border border-black/5">
+                    <div className="flex flex-col items-center justify-center p-4 rounded-xl hover:bg-white/50 transition-colors">
+                        <Award size={16} className="text-[var(--c-blue-azure)] mb-2" />
+                        <div className="text-sm font-bold text-[var(--t-primary)]">{badges.length}</div>
+                        <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">Badges</div>
                     </div>
-                    <div className="flex flex-col items-center gap-1 py-4 px-2">
-                        <TrendingUp size={14} className="text-[var(--c-blue-azure)]" />
-                        <span className="text-lg font-light text-[var(--t-primary)]">{totalEarned.toFixed(0)}</span>
-                        <span className="text-[9px] uppercase tracking-wider text-[var(--t-secondary)] font-sans text-center">STX Value</span>
+                    <div className="flex flex-col items-center justify-center p-4 rounded-xl border-x border-black/5 hover:bg-white/50 transition-colors">
+                        <TrendingUp size={16} className="text-[var(--c-blue-azure)] mb-2" />
+                        <div className="text-sm font-bold text-[var(--t-primary)]">{totalEarned.toFixed(1)}</div>
+                        <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">STX Value</div>
                     </div>
-                    <div className="flex flex-col items-center gap-1 py-4 px-2">
-                        <ShieldCheck size={14} className="text-[var(--c-blue-azure)]" />
-                        <span className="text-lg font-light text-[var(--t-primary)]">
-                            {totalReviews > 0 ? <Check size={14} className="text-emerald-500 inline-block mb-1" /> : <span className="text-gray-300">0</span>}
-                        </span>
-                        <span className="text-[9px] uppercase tracking-wider text-[var(--t-secondary)] font-sans text-center">Verified</span>
+                    <div className="flex flex-col items-center justify-center p-4 rounded-xl hover:bg-white/50 transition-colors">
+                        <ShieldCheck size={16} className="text-emerald-500 mb-2" />
+                        <div className="text-sm font-bold text-[var(--t-primary)]">{totalReviews > 0 ? 'I' : '0'}</div>
+                        <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">Verified</div>
                     </div>
                 </div>
 
-                <div className="bg-white/30 px-4 py-3 text-[10px] text-[var(--t-secondary)] font-sans leading-relaxed">
+                <div className="bg-white/30 px-5 py-4 rounded-2xl text-[11px] text-[var(--t-secondary)] font-sans leading-relaxed border border-black/5">
                     {persona === 'HOST'
                         ? totalReviews > 0
                             ? `Your ${avgRating.toFixed(1)}★ reputation places you among Aether's ${tier.toLowerCase()} hosts. Keep delivering exceptional stays to unlock Superhost status.`
-                            : 'Complete your first hosted stay to start building your on-chain reputation. Your reputation score is permanently recorded on Stacks.'
+                            : 'Complete your first hosted stay to start building your guest reputation on the Stacks blockchain. Reputation is permanently recorded.'
                         : totalReviews > 0
-                            ? `You have ${totalReviews} verified stay${totalReviews > 1 ? 's' : ''} on your blockchain record. A strong review history unlocks better properties and lower platform fees.`
-                            : 'Complete your first stay and leave a review to begin building your guest reputation on the Stacks blockchain.'
+                            ? `As a ${tier.toLowerCase()} traveler, your ${avgRating.toFixed(1)}★ history fast-tracks your booking requests with top hosts.`
+                            : 'Begin your journey through Aether and stay at curated sanctuaries to build your immutable traveler reputation.'
                     }
                 </div>
             </div>

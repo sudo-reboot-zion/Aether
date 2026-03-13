@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import NavDock from '@/components/dashboard/NavDock';
 import GlassPanel from '@/components/ui/GlassPanel';
 import { useAuth } from '@/hooks/useAuth';
 import { useProperties } from '@/hooks/useProperties';
@@ -13,6 +12,7 @@ import AnalyticsHeader from '@/components/dashboard/analytics/AnalyticsHeader';
 import AnalyticsKPIStrip from '@/components/dashboard/analytics/AnalyticsKPIStrip';
 import RecentActivityTable from '@/components/dashboard/analytics/RecentActivityTable';
 import RecentReviewsList from '@/components/dashboard/RecentReviewsList';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 import type { UserStats } from '@/redux/slices/redux.types';
 import type { CachedBooking } from '@/redux/slices/bookingsSlice';
@@ -27,6 +27,7 @@ export default function AnalyticsPage() {
 
     const [stats, setStats] = useState<UserStats | null>(null);
     const [isInitialLoading, setIsInitialLoading] = useState(true);
+    const [activeNav, setActiveNav] = useState('analytics');
 
     useEffect(() => {
         if (userAddress) {
@@ -51,7 +52,7 @@ export default function AnalyticsPage() {
         : 0;
 
     return (
-        <div className="flex h-screen overflow-hidden bg-[var(--c-cream)] text-[var(--t-primary)] font-serif p-6 gap-6 max-w-[1600px] mx-auto relative">
+        <div className="flex h-screen overflow-hidden bg-[var(--c-cream)] text-[var(--t-primary)] font-serif max-w-[1800px] mx-auto relative">
             {isInitialLoading && (
                 <GenerativeLoader
                     duration={2500}
@@ -63,11 +64,16 @@ export default function AnalyticsPage() {
             <div className="fixed -bottom-32 -right-32 w-96 h-96 bg-[var(--c-blue-azure)] opacity-20 blur-[80px] rounded-full z-0 pointer-events-none" />
             <div className="fixed -top-12 left-64 w-64 h-64 bg-[var(--c-blue-haze)] opacity-10 blur-[80px] rounded-full z-0 pointer-events-none" />
 
-            <aside className="w-[88px] relative z-20">
-                <NavDock activeItem="analytics" setActiveItem={() => { }} />
-            </aside>
+            <div className="flex-shrink-0 h-full transition-all duration-300">
+                <DashboardSidebar
+                    persona="HOST"
+                    activeItem={activeNav}
+                    setActiveItem={setActiveNav}
+                    userData={userData}
+                />
+            </div>
 
-            <main className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2 relative z-10 scroll-hide">
+            <main className="flex-1 flex flex-col gap-6 overflow-y-auto p-12 lg:px-16 pr-4 relative z-10 scroll-hide">
                 <AnalyticsHeader />
 
                 <AnalyticsKPIStrip

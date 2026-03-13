@@ -106,11 +106,11 @@ export interface DashboardHeaderProps {
 
 export interface DashboardSidebarProps {
     persona: Persona;
-    hostRequests: any[];
-    myTrips: any[];
-    handleRelease: (id: number) => void;
-    handleDispute: (id: number) => void;
-    handleResolveDispute: (bookingId: number) => void;
+    hostRequests?: any[];
+    myTrips?: any[];
+    handleRelease?: (id: number) => void;
+    handleDispute?: (id: number) => void;
+    handleResolveDispute?: (bookingId: number) => void;
     handleReview?: (booking: any) => void;
     stats?: { totalReviews: number; averageRating: number } | null;
     badges?: any[];
@@ -127,10 +127,6 @@ export interface DashboardStatsProps {
     badges?: any[];
 }
 
-export interface NavDockProps {
-    activeItem: string;
-    setActiveItem: (id: string) => void;
-}
 
 export interface StatCardProps {
     label: string;
@@ -152,7 +148,7 @@ export interface PropertyItemProps {
 
 export interface RequestCardDetails {
     dates: string;
-    guests: string;
+    guests?: string;
     price?: string | number | React.ReactNode;
     status?: string;
 }

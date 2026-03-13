@@ -1,7 +1,8 @@
 "use client";
 import React from 'react';
-import { Calendar, Heart, Settings, MessageSquare } from 'lucide-react';
+import { Calendar, Heart, Settings, MessageSquare, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProfileImage from './ProfileImage';
 import ProfileAchievements from './ProfileAchievements';
 import ProfileNavigation from './ProfileNavigation';
@@ -13,6 +14,7 @@ interface ProfileSidebarProps {
 }
 
 const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab }) => {
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
     const {
         userData, isLoading, persona, userAddress,
         badges, badgeTypes, profileImage, isUploading,
@@ -33,21 +35,36 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab
     }
 
     return (
-        <aside className={`p-8 flex flex-col gap-8 relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.05)] rounded-r-3xl h-full overflow-y-auto scroll-hide transition-colors duration-500
-            ${persona === 'HOST' ? 'bg-[#0F1D2C] text-white' : 'bg-[var(--c-blue-deep)] text-white'}`}>
-            <Link href="/" className="flex items-center gap-3 font-semibold text-xl tracking-tight text-white/90">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
+        <motion.aside
+            initial={false}
+            animate={{ width: isCollapsed ? 88 : 360 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`p-8 flex flex-col gap-8 relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.05)] rounded-r-3xl h-full overflow-y-auto scroll-hide transition-colors duration-500 group/sidebar
+            ${persona === 'HOST' ? 'bg-[#0F1D2C] text-white' : 'bg-[var(--c-blue-deep)] text-white'}`}
+        >
+            {/* Toggle Button */}
+            <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="absolute right-4 top-8 p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all opacity-0 group-hover/sidebar:opacity-100 z-50 text-white/70 hover:text-white"
+                title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+                {isCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+            </button>
+
+            <Link href="/" className={`flex items-center gap-3 font-semibold text-xl tracking-tight text-white/90 ${isCollapsed ? 'justify-center' : ''}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8 flex-shrink-0">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
-                AETHER
+                {!isCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>AETHER</motion.span>}
             </Link>
 
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col gap-4 ${isCollapsed ? 'items-center' : ''}`}>
                 <ProfileImage
                     profileImage={profileImage}
                     isUploading={isUploading}
                     onUploadClick={() => fileInputRef.current?.click()}
                     address={userAddress}
+                    isCollapsed={isCollapsed}
                 />
                 <input
                     type="file"
@@ -56,32 +73,35 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab
                     className="hidden"
                     accept="image/*"
                 />
-                <div>
-                    <h1 className="text-3xl font-medium leading-tight font-serif mb-1 truncate">
-                        Hi {typeof userName === 'string' ? userName.split(' ')[0] : (String(persona) === 'HOST' ? 'Host' : 'Traveler')}
-                    </h1>
-                    <div className="flex items-center gap-3 mt-1 cursor-pointer group" title="Click to copy address" onClick={() => {
-                        if (userAddress) {
-                            navigator.clipboard.writeText(userAddress);
-                            alert("Address copied to clipboard");
-                        }
-                    }}>
-                        <div className={`flex items-center gap-2 px-3 py-1 rounded-full bg-black/20 border border-white/5 group-hover:bg-black/30 transition-all`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${userAddress ? 'bg-emerald-400' : 'bg-gray-400'}`} />
-                            <span className="font-mono text-[10px] text-white/90 tracking-tighter uppercase">{shortAddress}</span>
+                {!isCollapsed && (
+                    <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
+                        <h1 className="text-3xl font-medium leading-tight font-serif mb-1 truncate">
+                            Hi {typeof userName === 'string' ? userName.split(' ')[0] : (String(persona) === 'HOST' ? 'Host' : 'Traveler')}
+                        </h1>
+                        <div className="flex items-center gap-3 mt-1 cursor-pointer group" title="Click to copy address" onClick={() => {
+                            if (userAddress) {
+                                navigator.clipboard.writeText(userAddress);
+                                alert("Address copied to clipboard");
+                            }
+                        }}>
+                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full bg-black/20 border border-white/5 group-hover:bg-black/30 transition-all`}>
+                                <div className={`w-1.5 h-1.5 rounded-full ${userAddress ? 'bg-emerald-400' : 'bg-gray-400'}`} />
+                                <span className="font-mono text-[10px] text-white/90 tracking-tighter uppercase">{shortAddress}</span>
+                            </div>
+                            <p className="text-[var(--c-blue-haze)] text-[10px] font-sans uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                {String(persona) === 'HOST' ? 'Sanctuary Owner' : 'Verified Guest'}
+                            </p>
                         </div>
-                        <p className="text-[var(--c-blue-haze)] text-[10px] font-sans uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                            {String(persona) === 'HOST' ? 'Sanctuary Owner' : 'Verified Guest'}
-                        </p>
-                    </div>
-                </div>
+                    </motion.div>
+                )}
             </div>
 
-            <ProfileAchievements persona={persona} badges={badges} badgeTypes={badgeTypes} />
+            <ProfileAchievements persona={persona} badges={badges} badgeTypes={badgeTypes} isCollapsed={isCollapsed} />
 
             <ProfileNavigation
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
+                isCollapsed={isCollapsed}
                 navItems={[
                     { id: 'bookings', label: 'My Bookings', icon: Calendar },
                     { id: 'messages', label: 'Messages', icon: MessageSquare },
@@ -89,7 +109,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab
                     { id: 'preferences', label: 'Preferences', icon: Settings }
                 ]}
             />
-        </aside>
+        </motion.aside>
     );
 };
 

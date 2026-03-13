@@ -12,7 +12,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ persona, userName }) 
                     {persona === 'HOST' ? 'Host Center' : 'Guest Portal'}
                 </div>
                 <h1 className="text-3xl font-light text-[var(--t-primary)] tracking-tight">
-                    {userName ? `${userName.split(' ')[0]}'s ` : ''}Dashboard
+                    Dashboard
                 </h1>
             </div>
             {persona === 'HOST' && (
