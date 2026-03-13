@@ -13,6 +13,8 @@ import { LOCATIONS } from '@/constants/locations';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
+import { LayoutGrid, List } from 'lucide-react';
 
 function CollectionContent() {
     const { properties, fetchProperties, isLoading } = useProperties();
@@ -25,6 +27,7 @@ function CollectionContent() {
     const [priceRange, setPriceRange] = useState('any');
     const [sortBy, setSortBy] = useState('Newest');
     const [activeFilter, setActiveFilter] = useState('All Stays');
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     // Set initial filter from query param
     useEffect(() => {
@@ -43,6 +46,11 @@ function CollectionContent() {
     const filteredProperties = useMemo(() => {
         let result = [...properties];
 
+        //- [x] Integrate into `ManifestoPage`
+        // [/] Integrate into `PropertyDetailsPage`
+        // [ ] Integrate into `DashboardPage`
+        // [ ] Integrate into `ProfilePage`
+        // [x] Verify implementation
         // 1. Filter by Location
         if (location !== 'all') {
             result = result.filter(p => p.locationTag.toString() === location);
@@ -92,21 +100,40 @@ function CollectionContent() {
 
     return (
         <div className="pt-32 pb-24 px-8 max-w-[1440px] mx-auto">
-            <FilterBar
-                location={location}
-                setLocation={setLocation}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                activeFilter={activeFilter}
-                setActiveFilter={setActiveFilter}
-            />
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                <FilterBar
+                    location={location}
+                    setLocation={setLocation}
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    activeFilter={activeFilter}
+                    setActiveFilter={setActiveFilter}
+                />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div className="flex bg-white/40 backdrop-blur-sm p-1 rounded-full border border-white/20 shadow-sm self-end md:self-auto">
+                    <button
+                        onClick={() => setViewMode('grid')}
+                        className={`p-2.5 rounded-full transition-all duration-300 ${viewMode === 'grid' ? 'bg-[var(--c-blue-deep)] text-white shadow-md' : 'text-[var(--t-secondary)] hover:bg-white/40'}`}
+                        title="Grid View"
+                    >
+                        <LayoutGrid size={18} />
+                    </button>
+                    <button
+                        onClick={() => setViewMode('list')}
+                        className={`p-2.5 rounded-full transition-all duration-300 ${viewMode === 'list' ? 'bg-[var(--c-blue-deep)] text-white shadow-md' : 'text-[var(--t-secondary)] hover:bg-white/40'}`}
+                        title="List View"
+                    >
+                        <List size={18} />
+                    </button>
+                </div>
+            </div>
+
+            <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" : "flex flex-col gap-6"}>
                 {isLoading && properties.length === 0 ? (
                     Array(6).fill(0).map((_, i) => (
-                        <ListingCardSkeleton key={i} />
+                        <ListingCardSkeleton key={i} layout={viewMode} />
                     ))
                 ) : filteredProperties.length === 0 ? (
                     <div className="col-span-full">
@@ -127,6 +154,7 @@ function CollectionContent() {
                             metadataUri={property.metadataUri}
                             price={`${(property.pricePerNight / 1000000).toFixed(2)} STX`}
                             badge={property.id < 0 ? 'Pending' : undefined}
+                            layout={viewMode}
                         />
                     ))
                 )}
@@ -145,8 +173,18 @@ function CollectionContent() {
 }
 
 export default function CollectionPage() {
+    const [isInitialLoading, setIsInitialLoading] = React.useState(true);
+
     return (
         <main className="min-h-screen">
+            {isInitialLoading && (
+                <GenerativeLoader
+                    duration={2500}
+                    messages={["Syncing ledger...", "Fetching sanctuaries...", "Vibe discovery..."]}
+                    completeMessage="Collection Ready"
+                    onComplete={() => setIsInitialLoading(false)}
+                />
+            )}
             <Navbar />
             <Suspense fallback={<div className="pt-32 pb-24 text-center font-serif text-[var(--t-secondary)]">Loading collection...</div>}>
                 <CollectionContent />

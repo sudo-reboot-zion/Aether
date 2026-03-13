@@ -2,6 +2,7 @@ import React from 'react';
 import { ShieldAlert, CreditCard, Clock, CheckCircle2, Check, X, Send, Sparkles } from 'lucide-react';
 import { RequestCardProps } from '@/redux/slices/redux.types';
 import Identicon from '../ui/Identicon';
+import { CurrencyDisplay } from '../ui/CurrencyDisplay';
 
 
 const RequestCard: React.FC<RequestCardProps> = ({
@@ -78,7 +79,19 @@ const RequestCard: React.FC<RequestCardProps> = ({
                     <div className="bg-white/40 rounded-xl p-3 space-y-2 border border-black/5">
                         <div className="flex justify-between text-[11px] text-[var(--t-secondary)]">
                             <span className="flex items-center gap-1.5"><Clock className="w-3 h-3" /> {details.dates}</span>
-                            <span className="font-bold text-[var(--t-primary)]">{details.price}</span>
+                            <span className="font-bold text-[var(--t-primary)]">
+                                {details.price !== undefined && details.price !== null ? (
+                                    typeof details.price === 'number' ? (
+                                        <CurrencyDisplay amount={details.price} />
+                                    ) : typeof details.price === 'string' ? (
+                                        <CurrencyDisplay amount={parseFloat(details.price.replace(/[^0-9.]/g, '')) || 0} />
+                                    ) : (
+                                        details.price
+                                    )
+                                ) : (
+                                    '--'
+                                )}
+                            </span>
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">

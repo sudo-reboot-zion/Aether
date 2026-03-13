@@ -1,6 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
 import { Edit, Loader2 } from 'lucide-react';
+import SafeImage from '../ui/SafeImage';
 import Identicon from '../ui/Identicon';
 
 interface ProfileImageProps {
@@ -19,14 +19,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ profileImage, isUploading, 
                 {isDefault && address ? (
                     <Identicon address={address} size={88} className="w-full h-full" />
                 ) : (
-                    <Image
+                    <SafeImage
                         src={profileImage}
                         alt="User Profile"
                         fill
                         sizes="88px"
                         priority
-                        loading="eager"
                         className={`object-cover transition-opacity ${isUploading ? 'opacity-30' : 'opacity-100'}`}
+                        fallbackSrc="/images/generic-avatar.png"
                     />
                 )}
                 {isUploading && (

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { Heart } from 'lucide-react';
-import Image from 'next/image';
+import SafeImage from '../ui/SafeImage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux';
 import { fetchFavorites } from '@/redux/slices/favoritesSlice';
@@ -46,7 +46,7 @@ const SavedHomes = () => {
                         <Link href={`/details/${encodePropertyId(fav.id)}`} key={fav.id} className="bg-white rounded-[24px] p-2.5 shadow-[0_4px_20px_rgba(61,52,47,0.04)] cursor-pointer transition-transform hover:-translate-y-1 duration-300 block">
                             <div className="relative aspect-[3/4] rounded-[18px] overflow-hidden mb-3">
                                 {fav.metadata?.images && fav.metadata.images.length > 0 ? (
-                                    <Image
+                                    <SafeImage
                                         src={fav.metadata.images[0]}
                                         alt={fav.metadata.title}
                                         fill

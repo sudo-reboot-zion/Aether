@@ -7,6 +7,7 @@ import NFTTokenCard from '../../components/confirmation/NFTTokenCard';
 import DigitalAccessCard from '../../components/confirmation/DigitalAccessCard';
 import BookingDetails from '../../components/confirmation/BookingDetails';
 import { Check, ArrowRight } from 'lucide-react';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 import Link from 'next/link';
 
 function ConfirmationContent() {
@@ -46,8 +47,18 @@ function ConfirmationContent() {
 }
 
 export default function ConfirmationPage() {
+    const [isInitialLoading, setIsInitialLoading] = React.useState(true);
+
     return (
         <main className="min-h-screen bg-gradient-to-br from-[var(--c-cream)] via-[var(--c-fog)] to-[var(--c-blue-haze)] relative overflow-x-hidden font-serif">
+            {isInitialLoading && (
+                <GenerativeLoader
+                    duration={2500}
+                    messages={["Verifying block inclusion...", "Syncing digital voucher...", "Securing sanctuary keys..."]}
+                    completeMessage="Sovereignty Established"
+                    onComplete={() => setIsInitialLoading(false)}
+                />
+            )}
             <Navbar />
             <div className="pt-32 pb-24 px-6">
                 <Suspense fallback={<div className="text-center py-20 font-serif italic text-[var(--t-secondary)]">Resolving blockchain data...</div>}>

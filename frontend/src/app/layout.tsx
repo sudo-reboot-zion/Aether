@@ -11,6 +11,7 @@ import PremiumDialog from "@/components/ui/PremiumDialog";
 import FloatingChat from "@/components/ui/FloatingChat";
 import ReservationChatSidebar from "@/components/ui/ReservationChatSidebar";
 import FavoritesMount from "@/components/providers/FavoritesMount";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -45,14 +46,16 @@ export default function RootLayout({
       <body className={`${cormorantGaramond.variable} ${inter.variable} font-serif antialiased`}>
         <StoreProvider>
           <AuthProvider>
-            <TxPollerMount />
-            <GlobalTxToast />
-            <PremiumDialog />
-            <FavoritesMount />
-            <FloatingChat />
-            <ReservationChatSidebar />
-            {children}
-            <ScrollToTop />
+            <CurrencyProvider>
+              <TxPollerMount />
+              <GlobalTxToast />
+              <PremiumDialog />
+              <FavoritesMount />
+              <FloatingChat />
+              <ReservationChatSidebar />
+              {children}
+              <ScrollToTop />
+            </CurrencyProvider>
           </AuthProvider>
         </StoreProvider>
       </body>

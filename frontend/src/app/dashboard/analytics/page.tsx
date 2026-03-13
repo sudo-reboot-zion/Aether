@@ -13,6 +13,7 @@ import AnalyticsHeader from '@/components/dashboard/analytics/AnalyticsHeader';
 import AnalyticsKPIStrip from '@/components/dashboard/analytics/AnalyticsKPIStrip';
 import RecentActivityTable from '@/components/dashboard/analytics/RecentActivityTable';
 import RecentReviewsList from '@/components/dashboard/RecentReviewsList';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 import type { UserStats } from '@/redux/slices/redux.types';
 import type { CachedBooking } from '@/redux/slices/bookingsSlice';
 
@@ -25,6 +26,7 @@ export default function AnalyticsPage() {
     const { fetchUserStats, fetchUserReviews, userReviews } = useReputation(userAddress);
 
     const [stats, setStats] = useState<UserStats | null>(null);
+    const [isInitialLoading, setIsInitialLoading] = useState(true);
 
     useEffect(() => {
         if (userAddress) {
@@ -50,6 +52,14 @@ export default function AnalyticsPage() {
 
     return (
         <div className="flex h-screen overflow-hidden bg-[var(--c-cream)] text-[var(--t-primary)] font-serif p-6 gap-6 max-w-[1600px] mx-auto relative">
+            {isInitialLoading && (
+                <GenerativeLoader
+                    duration={2500}
+                    messages={["Aggregating chain data...", "Calculating yield curves...", "Visualizing sanctuary growth..."]}
+                    completeMessage="Insights Ready"
+                    onComplete={() => setIsInitialLoading(false)}
+                />
+            )}
             <div className="fixed -bottom-32 -right-32 w-96 h-96 bg-[var(--c-blue-azure)] opacity-20 blur-[80px] rounded-full z-0 pointer-events-none" />
             <div className="fixed -top-12 left-64 w-64 h-64 bg-[var(--c-blue-haze)] opacity-10 blur-[80px] rounded-full z-0 pointer-events-none" />
 

@@ -13,6 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { uploadToIPFS, uploadFileToIPFS } from '@/lib/ipfs';
 import { getLocationId } from '@/constants/locations';
 import { useRouter } from 'next/navigation';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 
 import { APP_CONFIG } from '@/lib/config';
 import { WIZARD_DEFAULTS } from '@/constants/wizard';
@@ -74,6 +75,9 @@ const ListingWizard = () => {
         }
     };
 
+    const [publishStatus, setPublishStatus] = useState<string[]>([]);
+    const [isSyncing, setIsSyncing] = useState(false);
+
     const handleDeploy = async () => {
         if (!stxAddress) {
             alert('Please connect your wallet to publish this listing');
@@ -87,9 +91,9 @@ const ListingWizard = () => {
         }
 
         setIsDeploying(true);
+        setPublishStatus(["Compressing sanctuary assets...", "Sealing metadata in IPFS..."]);
         try {
             // 1. Upload images to IPFS
-            // We want to upload ALL images, but put the selected "Cover" image first
             const sortedImages = [
                 ...images.filter(img => img.selected),
                 ...images.filter(img => !img.selected)
@@ -106,7 +110,6 @@ const ListingWizard = () => {
                         console.warn('Failed to upload an image to IPFS, skipping...');
                     }
                 } else if (img.url.startsWith('ipfs://') || img.url.startsWith('http')) {
-                    // Keep existing IPFS or external URLs
                     imageUrls.push(img.url);
                 }
             }
@@ -128,6 +131,7 @@ const ListingWizard = () => {
                 hostName: userData?.profile?.name || 'Sanctuary Host'
             };
 
+            setPublishStatus(["Sealing metadata in IPFS...", "Connecting to Aether Ledger...", "Broadcasting transaction..."]);
             const ipfsHash = await uploadToIPFS(metadata);
             if (!ipfsHash) {
                 throw new Error('Failed to upload metadata to IPFS');
@@ -144,6 +148,13 @@ const ListingWizard = () => {
                 userData.profile.stxAddress.testnet
             );
 
+            // 3. Post-publish sync phase
+            setIsSyncing(true);
+            setPublishStatus(["Listing Manifested!", "Finalizing Aether sync...", "Harmonizing data layers..."]);
+
+            // Artificial delay for premium "syncing" feel and blockchain propagation
+            await new Promise(resolve => setTimeout(resolve, 3500));
+
             localStorage.removeItem('aether_listing_draft');
             router.push('/dashboard');
         } catch (err) {
@@ -151,6 +162,7 @@ const ListingWizard = () => {
             alert('Failed to deploy listing. See console for details.');
         } finally {
             setIsDeploying(false);
+            setIsSyncing(false);
         }
     };
 
@@ -254,6 +266,14 @@ const ListingWizard = () => {
                 activeAmenities={amenities.filter(a => a.active)}
                 nightlyPrice={pricing.nightlyPrice}
             />
+
+            {isDeploying && (
+                <GenerativeLoader
+                    duration={isSyncing ? 3500 : 8000}
+                    messages={publishStatus.length > 0 ? publishStatus : undefined}
+                    completeMessage={isSyncing ? "Sync Complete" : "Transaction Sent"}
+                />
+            )}
         </div>
     );
 };

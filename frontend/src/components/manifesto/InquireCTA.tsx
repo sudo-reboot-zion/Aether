@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import GlassPanel from '../ui/GlassPanel';
 import Button from '../ui/Button';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -7,12 +8,16 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 const InquireCTA: React.FC = () => {
     const { t } = useTranslation();
+    const router = useRouter();
     const [clicked, setClicked] = useState(false);
 
 
     const handleClick = () => {
         setClicked(true);
-        setTimeout(() => setClicked(false), 2000);
+        // Short delay to show the "Welcome" feedback before navigating
+        setTimeout(() => {
+            router.push('/collection');
+        }, 800);
     };
 
     return (

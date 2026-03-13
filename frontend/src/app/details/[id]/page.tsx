@@ -11,6 +11,8 @@ import { useProperties } from '@/hooks/useProperties';
 import { fetchIPFSMetadata, PropertyMetadata, getIPFSUrl } from '@/lib/ipfs';
 import { useTranslation } from '@/hooks/useTranslation';
 import { decodePropertyId } from '@/lib/urls';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
+import { CurrencyDisplay } from '@/components/ui/CurrencyDisplay';
 
 import { Heart } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -71,6 +73,11 @@ export default function PropertyDetailsPage() {
     if ((isPropertiesLoading || isMetadataLoading) && !metadata) {
         return (
             <main className="min-h-screen">
+                <GenerativeLoader
+                    duration={3000}
+                    messages={[t('details.seeking'), "Connecting to Stacks...", "Resolving IPFS gateway..."]}
+                    completeMessage="Sanctuary Found"
+                />
                 <Navbar />
                 <div className="max-w-[1280px] mx-auto px-8 pt-48 pb-12 text-center">
                     <div className="font-serif text-2xl animate-pulse text-[var(--t-secondary)]">{t('details.seeking')}</div>

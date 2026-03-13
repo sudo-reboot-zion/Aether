@@ -1,5 +1,6 @@
 "use client";
 import Button from '../ui/Button';
+import { CurrencyDisplay } from '../ui/CurrencyDisplay';
 import React, { useState } from 'react';
 import GlassPanel from '../ui/GlassPanel';
 import { useBookings } from '@/hooks/useBookings';
@@ -88,7 +89,9 @@ const BookingSidebar = ({
         <aside className="sticky top-32">
             <GlassPanel className="p-8 bg-white/70 backdrop-blur-[24px]">
                 <div className="flex items-baseline mb-6">
-                    <span className="text-[2.5rem] font-normal">{priceSTX.toFixed(2)} STX</span>
+                    <span className="text-[2.5rem] font-normal">
+                        <CurrencyDisplay amount={priceSTX} />
+                    </span>
                     <span className="text-base font-sans text-[var(--t-secondary)] ml-1">{t('booking.night')}</span>
                 </div>
 
@@ -119,16 +122,18 @@ const BookingSidebar = ({
 
                 <div className="mt-6 pt-6 border-t border-[rgba(27,64,102,0.1)]">
                     <div className="flex justify-between mb-3 font-sans text-sm">
-                        <span>{priceSTX.toFixed(2)} STX x {numNights} {t('booking.nights').toLowerCase()}</span>
-                        <span>{totalSTX.toFixed(2)} STX</span>
+                        <span>
+                            <CurrencyDisplay amount={priceSTX} /> x {numNights} {t('booking.nights').toLowerCase()}
+                        </span>
+                        <span><CurrencyDisplay amount={totalSTX} /></span>
                     </div>
                     <div className="flex justify-between mb-3 font-sans text-sm">
                         <span>{t('booking.platformFee')} ({APP_CONFIG.PLATFORM_FEE_PERCENT}%)</span>
-                        <span>{(totalSTX * (APP_CONFIG.PLATFORM_FEE_PERCENT / 100)).toFixed(4)} STX</span>
+                        <span><CurrencyDisplay amount={totalSTX * (APP_CONFIG.PLATFORM_FEE_PERCENT / 100)} precision={4} /></span>
                     </div>
                     <div className="flex justify-between mt-4 font-semibold text-lg">
                         <span>{t('booking.total')}</span>
-                        <span>{(totalSTX * (1 + (APP_CONFIG.PLATFORM_FEE_PERCENT / 100))).toFixed(2)} STX</span>
+                        <span><CurrencyDisplay amount={totalSTX * (1 + (APP_CONFIG.PLATFORM_FEE_PERCENT / 100))} /></span>
                     </div>
                 </div>
 

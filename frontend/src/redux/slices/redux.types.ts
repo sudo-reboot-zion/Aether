@@ -22,7 +22,7 @@ export interface RecentActivityTableProps {
 export interface AnalyticsStatBadgeProps {
     icon: React.ReactNode;
     label: string;
-    value: string;
+    value: React.ReactNode;
     sub: string;
     accent: string;
 }
@@ -153,7 +153,7 @@ export interface PropertyItemProps {
 export interface RequestCardDetails {
     dates: string;
     guests: string;
-    price?: string;
+    price?: string | number | React.ReactNode;
     status?: string;
 }
 

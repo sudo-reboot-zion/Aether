@@ -1,6 +1,7 @@
 import React from 'react';
 import { Award } from 'lucide-react';
 import GlassPanel from '@/components/ui/GlassPanel';
+import { CurrencyDisplay } from '@/components/ui/CurrencyDisplay';
 import type { RecentActivityTableProps } from '@/redux/slices/redux.types';
 
 const RecentActivityTable: React.FC<RecentActivityTableProps> = ({ bookings }) => {
@@ -19,14 +20,16 @@ const RecentActivityTable: React.FC<RecentActivityTableProps> = ({ bookings }) =
                     <div className="grid grid-cols-4 text-[10px] uppercase tracking-widest text-[var(--t-secondary)] font-sans pb-2 border-b border-black/5">
                         <span>Booking</span>
                         <span>Property</span>
-                        <span>Payout (STX)</span>
+                        <span>Payout</span>
                         <span>Status</span>
                     </div>
                     {bookings.slice(0, 8).map((b, i) => (
                         <div key={i} className="grid grid-cols-4 py-3 text-sm border-b border-black/5 last:border-0 items-center hover:bg-white/30 rounded-lg px-1 transition-colors">
                             <span className="font-mono text-xs text-[var(--t-secondary)]">#{String(i + 1).padStart(3, '0')}</span>
                             <span className="text-xs font-sans text-[var(--t-secondary)]">Property #{b.propertyId}</span>
-                            <span className="font-medium">{(b.hostPayout / 1_000_000).toFixed(4)}</span>
+                            <span className="font-medium">
+                                <CurrencyDisplay amount={b.hostPayout / 1_000_000} precision={4} />
+                            </span>
                             <span>
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-sans ${b.status === 'completed' ? 'bg-emerald-50 text-emerald-700' :
                                     b.status === 'confirmed' ? 'bg-[#EEF3F8] text-[var(--c-blue-deep)]' :

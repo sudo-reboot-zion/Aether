@@ -1,21 +1,48 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../redux/index';
 import { fetchSessions, openBookingChat, ChatSession } from '../../redux/slices/bookingChatSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { MessageSquare, Clock, User, Home, Loader2 } from 'lucide-react';
 
+import { useSearchParams } from 'next/navigation';
+
 export const ChatInbox: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { stxAddress: userAddress } = useAuth();
     const { sessions, isFetchingSessions } = useSelector((state: RootState) => state.bookingChat);
+    const searchParams = useSearchParams();
+    const hasAutoOpened = useRef(false);
 
     useEffect(() => {
         if (userAddress) {
             dispatch(fetchSessions(userAddress));
         }
     }, [dispatch, userAddress]);
+
+    // Auto-open chat if directed from elsewhere (e.g. Confirmation page)
+    useEffect(() => {
+        if (!isFetchingSessions && sessions.length > 0 && !hasAutoOpened.current) {
+            const bookingId = searchParams.get('bookingId');
+            const partnerParam = searchParams.get('partner');
+
+            if (bookingId || partnerParam) {
+                const session = sessions.find(s =>
+                    (bookingId && s.booking_id.toString() === bookingId) ||
+                    (partnerParam && s.partner_address.toLowerCase() === partnerParam.toLowerCase())
+                );
+
+                if (session) {
+                    dispatch(openBookingChat({
+                        bookingId: session.booking_id,
+                        partnerAddress: session.partner_address
+                    }));
+                    hasAutoOpened.current = true;
+                }
+            }
+        }
+    }, [sessions, isFetchingSessions, searchParams, dispatch]);
 
     if (!userAddress) {
         return (

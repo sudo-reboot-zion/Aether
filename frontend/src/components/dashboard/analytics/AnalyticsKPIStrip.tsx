@@ -1,6 +1,7 @@
 import React from 'react';
 import { DollarSign, Activity, Home, Star } from 'lucide-react';
 import AnalyticsStatBadge from './AnalyticsStatBadge';
+import { CurrencyDisplay } from '@/components/ui/CurrencyDisplay';
 import type { AnalyticsKPIStripProps } from '@/redux/slices/redux.types';
 
 const AnalyticsKPIStrip: React.FC<AnalyticsKPIStripProps> = ({
@@ -24,14 +25,14 @@ const AnalyticsKPIStrip: React.FC<AnalyticsKPIStripProps> = ({
                 <AnalyticsStatBadge
                     icon={<DollarSign size={20} />}
                     label="Total Earned"
-                    value={`${totalEarned.toFixed(2)} STX`}
+                    value={<CurrencyDisplay amount={totalEarned} />}
                     sub="All completed payouts"
                     accent="from-white/20 to-white/5"
                 />
                 <AnalyticsStatBadge
                     icon={<Activity size={20} />}
                     label="Pending Payout"
-                    value={`${totalPending.toFixed(2)} STX`}
+                    value={<CurrencyDisplay amount={totalPending} />}
                     sub="Confirmed, awaiting release"
                     accent="from-white/10 to-transparent"
                 />

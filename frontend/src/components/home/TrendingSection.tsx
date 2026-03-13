@@ -53,7 +53,7 @@ const TrendingSection = () => {
                                 key={property.id}
                                 id={property.id}
                                 metadataUri={property.metadataUri}
-                                price={`${(property.pricePerNight / 1000000).toFixed(2)} STX`}
+                                price={property.pricePerNight / 1000000}
                                 badge={property.id < 0 ? 'Pending' : undefined}
                                 rating={currentBlock > 0 && currentBlock - property.createdAt < 1000 ? 'New' : 'Verified'}
                             />

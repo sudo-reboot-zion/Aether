@@ -48,7 +48,7 @@ const EscrowList: React.FC<EscrowListProps> = ({
                                 details={{
                                     dates: `Block #${booking.checkIn}`,
                                     guests: '1',
-                                    price: `${(booking.totalAmount / 1000000).toFixed(2)} STX`,
+                                    price: booking.totalAmount / 1000000,
                                     status: booking.status === 'completed' ? 'Payment Received' : 'Active Stay'
                                 }}
                             />
@@ -70,7 +70,7 @@ const EscrowList: React.FC<EscrowListProps> = ({
                                 details={{
                                     dates: `Block ${booking.checkIn}`,
                                     guests: 'Verified',
-                                    price: `${(booking.totalAmount / 1000000).toFixed(2)} STX`,
+                                    price: booking.totalAmount / 1000000,
                                     status: booking.status
                                 }}
                                 onRelease={() => handleRelease(booking.id)}

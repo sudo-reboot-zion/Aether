@@ -10,6 +10,7 @@ import DashboardSidebar from '../../components/dashboard/DashboardSidebar';
 import ReviewDialog from '../../components/dashboard/ReviewDialog';
 import { useDashboard } from '@/hooks/useDashboard';
 import { useAuth } from '@/hooks/useAuth';
+import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 
 export default function DashboardPage() {
     const {
@@ -41,9 +42,18 @@ export default function DashboardPage() {
     }
 
     const isLoading = propertiesLoading || bookingsLoading;
+    const [isInitialLoading, setIsInitialLoading] = React.useState(true);
 
     return (
         <div className="flex h-screen overflow-hidden bg-[var(--c-cream)] text-[var(--t-primary)] font-serif p-6 gap-6 max-w-[1600px] mx-auto relative">
+            {isInitialLoading && (
+                <GenerativeLoader
+                    duration={2000}
+                    messages={["Syncing ledger...", "Authenticating persona...", "Restoring session..."]}
+                    completeMessage="Dashboard Ready"
+                    onComplete={() => setIsInitialLoading(false)}
+                />
+            )}
             <div className="fixed -bottom-32 -right-32 w-96 h-96 bg-[var(--c-blue-azure)] opacity-20 blur-[80px] rounded-full z-0 pointer-events-none"></div>
             <div className="fixed -top-12 left-64 w-64 h-64 bg-[var(--c-blue-haze)] opacity-10 blur-[80px] rounded-full z-0 pointer-events-none"></div>
 

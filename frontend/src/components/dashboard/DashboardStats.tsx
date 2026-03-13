@@ -4,6 +4,7 @@ import { Home, Star, Users, Award } from 'lucide-react';
 import GlassPanel from '../ui/GlassPanel';
 import StatCard from './StatCard';
 import ProfileStatsSkeleton from '../ui/ProfileStatsSkeleton';
+import { CurrencyDisplay } from '../ui/CurrencyDisplay';
 import { DashboardStatsProps } from '@/redux/slices/redux.types';
 
 const DashboardStats: React.FC<DashboardStatsProps> = ({
@@ -40,11 +41,13 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({
                         <div className="relative z-10">
                             <h3 className="text-sm text-[rgba(255,255,255,0.7)] font-normal mb-2">Portfolio Value (STX)</h3>
                             <div className="text-5xl font-light tracking-tight bg-gradient-to-r from-white to-[#AAAAAA] bg-clip-text text-transparent">
-                                {totalPortfolioValue.toFixed(2)} STX
+                                <CurrencyDisplay amount={totalPortfolioValue} />
                             </div>
                             <div className="text-xs text-[rgba(255,255,255,0.4)] mt-1">
                                 Secure on Bitcoin L2 • {myProperties.length} active listing{myProperties.length !== 1 ? 's' : ''}
-                                {totalEarned > 0 && ` • ${totalEarned.toFixed(2)} STX earned`}
+                                {totalEarned > 0 && (
+                                    <> • <CurrencyDisplay amount={totalEarned} /> earned</>
+                                )}
                             </div>
                         </div>
                         <div className="relative z-10 flex gap-3">
