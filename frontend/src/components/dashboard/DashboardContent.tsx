@@ -6,6 +6,7 @@ import Skeleton from '../ui/Skeleton';
 import { getIPFSUrl } from '@/lib/ipfs';
 import { openContractCall } from '@stacks/connect';
 import { togglePropertyStatus } from '@/lib/escrow/write';
+import { userSession } from '@/lib/stacks';
 import Link from 'next/link';
 import { encodePropertyId } from '@/lib/urls';
 import RecentReviewsList from './RecentReviewsList';
@@ -21,6 +22,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ persona, myProperti
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data: { txId: string }) => {
                     console.log("Toggle transaction broadcasted:", data.txId);
                 },

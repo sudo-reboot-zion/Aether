@@ -22,7 +22,7 @@ const BookingSidebar = ({
     hostAddress = '',
     maxGuests = 2
 }: BookingSidebarProps) => {
-    const { userData } = useAuth();
+    const { userData, connectWallet } = useAuth();
     const { blockHeight } = useNetwork();
     const { bookProperty } = useBookings();
     const { t } = useTranslation();
@@ -140,7 +140,7 @@ const BookingSidebar = ({
                 {!userData ? (
                     <Button
                         className="w-full mt-6 py-4 rounded-xl text-base shadow-xl"
-                        onClick={useAuth().connectWallet}
+                        onClick={connectWallet}
                     >
                         {t('booking.connect')}
                     </Button>

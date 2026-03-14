@@ -45,7 +45,7 @@ export const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({
         <span className="flex items-center gap-1.5">
             {amount.toLocaleString(undefined, {
                 minimumFractionDigits: precision,
-                maximumFractionDigits: amount < 1 ? 4 : 2
+                maximumFractionDigits: Math.max(precision, amount < 1 ? 4 : 2)
             })}
             {showSymbol && " STX"}
         </span>

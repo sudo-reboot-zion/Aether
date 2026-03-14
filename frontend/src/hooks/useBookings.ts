@@ -10,6 +10,7 @@ import {
 } from '@/redux/slices/bookingsSlice';
 import { addPendingTx } from '@/redux/slices/pendingTxSlice';
 import { getUserBookings } from '@/lib/escrow';
+import { userSession } from '@/lib/stacks';
 import {
     bookProperty as bookPropertyTx,
     releasePayment as releasePaymentTx,
@@ -78,6 +79,7 @@ export function useBookings(userAddress?: string) {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 postConditions: [postCondition],
                 onFinish: (data) => {
                     dispatch(addPendingTx({
@@ -124,6 +126,7 @@ export function useBookings(userAddress?: string) {
             const txOptions = await releasePaymentTx(bookingId);
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,
@@ -150,6 +153,7 @@ export function useBookings(userAddress?: string) {
             const txOptions = await cancelBookingTx(bookingId);
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,

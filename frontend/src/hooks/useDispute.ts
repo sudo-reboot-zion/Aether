@@ -4,6 +4,7 @@ import { addPendingTx } from '@/redux/slices/pendingTxSlice';
 import { raiseDispute as raiseDisputeTx } from '@/lib/dispute';
 import { getDispute, getBookingDispute } from '@/lib/dispute';
 import { openContractCall } from '@stacks/connect';
+import { userSession } from '@/lib/stacks';
 import { useToast } from './useToast';
 
 export function useDispute(initialBookingId?: number) {
@@ -27,6 +28,7 @@ export function useDispute(initialBookingId?: number) {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,
@@ -74,6 +76,7 @@ export function useDispute(initialBookingId?: number) {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,

@@ -5,6 +5,7 @@ import { addPendingTx } from '@/redux/slices/pendingTxSlice';
 import { setReputationStats, setReputationReviews } from '@/redux/slices/reputationSlice';
 import { submitReview as submitReviewTx, getUserStats, hasReviewed, getReviewsByUser } from '@/lib/reputation';
 import { openContractCall } from '@stacks/connect';
+import { userSession } from '@/lib/stacks';
 import { useToast } from './useToast';
 
 export function useReputation(userAddress?: string) {
@@ -32,6 +33,7 @@ export function useReputation(userAddress?: string) {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,

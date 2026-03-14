@@ -9,6 +9,7 @@ import {
     getUserPreferences as getUserPreferencesApi,
     setPreferences as setPreferencesTx
 } from '@/lib/profile';
+import { userSession } from '@/lib/stacks';
 
 export function useProfile() {
     const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export function useProfile() {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,
@@ -73,6 +75,7 @@ export function useProfile() {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,

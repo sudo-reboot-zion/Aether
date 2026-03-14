@@ -12,6 +12,7 @@ import {
 import { addPendingTx } from '@/redux/slices/pendingTxSlice';
 import { getAllProperties } from '@/lib/escrow';
 import { listProperty as listPropertyTx } from '@/lib/escrow';
+import { userSession } from '@/lib/stacks';
 import { openContractCall } from '@stacks/connect';
 import { useToast } from './useToast';
 import { fetchIPFSMetadata } from '@/lib/ipfs';
@@ -77,6 +78,7 @@ export function useProperties() {
 
             await openContractCall({
                 ...txOptions,
+                userSession,
                 onFinish: (data) => {
                     console.log('✅ Listing transaction submitted:', data.txId);
 
