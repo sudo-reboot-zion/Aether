@@ -10,35 +10,35 @@ plan:
       transactions:
         - contract-publish:
             contract-name: badge
-            expected-sender: ST2BM6Z29ZB9PZTTNG1SYPP5J7CW1CD4WXCKXJXQ3
+            expected-sender: STCYHKGGXV9NSZKAJ5VH0TSRETXX00RM0DP535SD
             cost: 84870
             path: contracts/badge.clar
             anchor-block-only: true
             clarity-version: 3
         - contract-publish:
             contract-name: escrow
-            expected-sender: ST2BM6Z29ZB9PZTTNG1SYPP5J7CW1CD4WXCKXJXQ3
+            expected-sender: STCYHKGGXV9NSZKAJ5VH0TSRETXX00RM0DP535SD
             cost: 163700
             path: contracts/escrow.clar
             anchor-block-only: true
             clarity-version: 3
         - contract-publish:
             contract-name: dispute
-            expected-sender: ST2BM6Z29ZB9PZTTNG1SYPP5J7CW1CD4WXCKXJXQ3
+            expected-sender: STCYHKGGXV9NSZKAJ5VH0TSRETXX00RM0DP535SD
             cost: 72020
             path: contracts/dispute.clar
             anchor-block-only: true
             clarity-version: 3
         - contract-publish:
             contract-name: profile
-            expected-sender: ST2BM6Z29ZB9PZTTNG1SYPP5J7CW1CD4WXCKXJXQ3
+            expected-sender: STCYHKGGXV9NSZKAJ5VH0TSRETXX00RM0DP535SD
             cost: 24170
             path: contracts/profile.clar
             anchor-block-only: true
             clarity-version: 3
         - contract-publish:
             contract-name: reputation
-            expected-sender: ST2BM6Z29ZB9PZTTNG1SYPP5J7CW1CD4WXCKXJXQ3
+            expected-sender: STCYHKGGXV9NSZKAJ5VH0TSRETXX00RM0DP535SD
             cost: 65640
             path: contracts/reputation.clar
             anchor-block-only: true
