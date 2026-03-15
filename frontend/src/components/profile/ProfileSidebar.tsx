@@ -7,6 +7,7 @@ import ProfileImage from './ProfileImage';
 import ProfileAchievements from './ProfileAchievements';
 import ProfileNavigation from './ProfileNavigation';
 import { useProfileSidebar } from '@/hooks/useProfileSidebar';
+import { useToast } from '@/hooks/useToast';
 
 interface ProfileSidebarProps {
     activeTab: string;
@@ -20,6 +21,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab
         badges, badgeTypes, profileImage, isUploading,
         fileInputRef, handleImageUpload, userName, shortAddress
     } = useProfileSidebar();
+    const { toast } = useToast();
 
     if (isLoading) {
         return (
@@ -81,7 +83,10 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeTab, setActiveTab
                         <div className="flex items-center gap-3 mt-1 cursor-pointer group" title="Click to copy address" onClick={() => {
                             if (userAddress) {
                                 navigator.clipboard.writeText(userAddress);
-                                alert("Address copied to clipboard");
+                                toast({
+                                    title: "Protocol Link Copied",
+                                    description: "Address copied to clipboard",
+                                });
                             }
                         }}>
                             <div className={`flex items-center gap-2 px-3 py-1 rounded-full bg-black/20 border border-white/5 group-hover:bg-black/30 transition-all`}>

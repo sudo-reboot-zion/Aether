@@ -1,27 +1,14 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import GlassPanel from '../ui/GlassPanel';
-import Button from '../ui/Button';
-import CustomSelect from '../ui/CustomSelect';
 import { useTranslation } from '@/hooks/useTranslation';
-import { LOCATIONS } from '@/constants/locations';
-
+import ProtocolStatsPanel from './ProtocolStatsPanel';
 import { useRouter } from 'next/navigation';
 
 const HeroSection = () => {
     const { t } = useTranslation();
     const router = useRouter();
-    const [location, setLocation] = useState<string>(LOCATIONS[3].name);
-
-    // Default checkIn to today's date
-    const today = new Date().toISOString().split('T')[0];
-    const [checkIn, setCheckIn] = useState<string>(today);
-    const [guests, setGuests] = useState<string>('2 Guests');
-
-    const handleSearch = () => {
-        router.push(`/collection?vibe=${encodeURIComponent(location)}`);
-    };
 
     return (
         <header className="relative pt-40 pb-20 px-6 min-h-screen flex flex-col justify-center">
@@ -51,52 +38,7 @@ const HeroSection = () => {
                         {t('hero.description')}
                     </p>
 
-                    <GlassPanel className="p-4 mt-8 max-w-3xl" hover={false}>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                            <div className="px-4 py-2 border-b md:border-b-0 md:border-r border-[rgba(27,64,102,0.1)] w-full">
-                                <CustomSelect
-                                    label={t('hero.search.location')}
-                                    value={location}
-                                    onChange={(val) => setLocation(val)}
-                                    className="w-full"
-                                    options={LOCATIONS.map(loc => ({ value: loc.name, label: loc.name }))}
-                                />
-                            </div>
-
-                            <div className="px-4 py-2 border-b md:border-b-0 md:border-r border-[rgba(27,64,102,0.1)] relative">
-                                <label className="block font-sans text-[10px] uppercase tracking-wider text-[var(--t-secondary)] mb-0.5">{t('hero.search.checkIn')}</label>
-                                <input
-                                    type="date"
-                                    value={checkIn}
-                                    onChange={(e) => setCheckIn(e.target.value)}
-                                    className="bg-transparent border-none font-serif text-base text-[var(--t-primary)] outline-none m-0 p-0 w-full cursor-pointer appearance-none [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:top-0 [&::-webkit-calendar-picker-indicator]:left-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
-                                />
-                            </div>
-
-                            <div className="px-4 py-2 border-b md:border-b-0 md:border-r border-[rgba(27,64,102,0.1)] w-full">
-                                <CustomSelect
-                                    label={t('hero.search.guests')}
-                                    value={guests}
-                                    onChange={(val) => setGuests(val)}
-                                    className="w-full"
-                                    options={[
-                                        { value: '1 Guest', label: '1 Guest' },
-                                        { value: '2 Guests', label: '2 Guests' },
-                                        { value: '3 Guests', label: '3 Guests' },
-                                        { value: '4 Guests', label: '4 Guests' },
-                                        { value: '5+ Guests', label: '5+ Guests' }
-                                    ]}
-                                />
-                            </div>
-
-                            <Button onClick={handleSearch} className="h-full w-full py-4 rounded-xl flex items-center justify-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                {t('hero.search.button')}
-                            </Button>
-                        </div>
-                    </GlassPanel>
+                    <ProtocolStatsPanel />
                 </div>
 
                 <div className="lg:col-span-5 relative h-[600px] hidden lg:block">

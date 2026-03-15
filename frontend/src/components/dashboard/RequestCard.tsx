@@ -95,7 +95,7 @@ const RequestCard: React.FC<RequestCardProps> = ({
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                        {type === 'action_required' && (
+                        {onRelease && (
                             <button
                                 className="w-full h-10 rounded-full bg-[var(--c-blue-azure)] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg shadow-blue-500/10 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
                                 onClick={onRelease}
@@ -111,7 +111,7 @@ const RequestCard: React.FC<RequestCardProps> = ({
                                 <Sparkles className="w-3 h-3" /> Leave Review
                             </button>
                         )}
-                        {type !== 'completed' && (
+                        {type !== 'completed' && onDispute && (
                             <button
                                 className="w-full h-10 rounded-full bg-white border border-red-50 text-red-500 text-[10px] font-bold uppercase tracking-wider hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
                                 onClick={onDispute}

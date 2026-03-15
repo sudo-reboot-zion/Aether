@@ -2,12 +2,14 @@
 import Button from '../ui/Button';
 import { CurrencyDisplay } from '../ui/CurrencyDisplay';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import GlassPanel from '../ui/GlassPanel';
 import { useBookings } from '@/hooks/useBookings';
 import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useNetwork } from '@/hooks/useNetwork';
 import { APP_CONFIG } from '@/lib/config';
+import { useToast } from '@/hooks/useToast';
 
 interface BookingSidebarProps {
     propertyId?: number;
@@ -26,6 +28,8 @@ const BookingSidebar = ({
     const { blockHeight } = useNetwork();
     const { bookProperty } = useBookings();
     const { t } = useTranslation();
+    const router = useRouter();
+    const { toast } = useToast();
     const [isBooking, setIsBooking] = useState(false);
 
 
@@ -33,16 +37,30 @@ const BookingSidebar = ({
     const [selectedGuests, setSelectedGuests] = useState(1);
     const guestAddress = userData?.profile?.stxAddress?.testnet;
 
+    // Exact blockchain math alignment (microStacks)
+    const baseAmountMicro = pricePerNight * numNights;
+    const platformFeeMicro = Math.floor((baseAmountMicro * APP_CONFIG.PLATFORM_FEE_PERCENT) / 100);
+    const totalMicro = baseAmountMicro + platformFeeMicro;
+
     const priceSTX = pricePerNight / 1000000;
-    const totalSTX = priceSTX * numNights;
+    const platformFeeSTX = platformFeeMicro / 1000000;
+    const totalSTX = totalMicro / 1000000;
     const handleReserve = async () => {
         if (!guestAddress) {
-            alert('Please connect your wallet first');
+            toast({
+                title: "Authentication Required",
+                description: "Please connect your wallet first",
+                variant: "destructive"
+            });
             return;
         }
 
         if (propertyId === undefined) {
-            alert('Property context not found');
+            toast({
+                title: "Context Error",
+                description: "Property context not found",
+                variant: "destructive"
+            });
             return;
         }
 
@@ -69,7 +87,7 @@ const BookingSidebar = ({
                         price: (priceSTX * numNights).toString(),
                         checkIn: checkIn.toString()
                     });
-                    window.location.href = `/confirmation?${params.toString()}`;
+                    router.push(`/confirmation?${params.toString()}`);
                 }
             );
         } catch (err) {
@@ -125,15 +143,24 @@ const BookingSidebar = ({
                         <span>
                             <CurrencyDisplay amount={priceSTX} /> x {numNights} {t('booking.nights').toLowerCase()}
                         </span>
-                        <span><CurrencyDisplay amount={totalSTX} /></span>
+                        <span><CurrencyDisplay amount={priceSTX * numNights} /></span>
                     </div>
                     <div className="flex justify-between mb-3 font-sans text-sm">
                         <span>{t('booking.platformFee')} ({APP_CONFIG.PLATFORM_FEE_PERCENT}%)</span>
-                        <span><CurrencyDisplay amount={totalSTX * (APP_CONFIG.PLATFORM_FEE_PERCENT / 100)} precision={4} /></span>
+                        <span><CurrencyDisplay amount={platformFeeSTX} precision={4} /></span>
                     </div>
-                    <div className="flex justify-between mt-4 font-semibold text-lg">
-                        <span>{t('booking.total')}</span>
-                        <span><CurrencyDisplay amount={totalSTX * (1 + (APP_CONFIG.PLATFORM_FEE_PERCENT / 100))} /></span>
+                    <div className="flex justify-between mt-4 items-end">
+                        <span className="font-semibold text-lg">{t('booking.total')}</span>
+                        <div className="text-right">
+                            <div className="text-xs font-sans font-bold text-[var(--c-blue-azure)] uppercase tracking-tight mb-0.5">Final Settlement</div>
+                            <span className="text-2xl font-bold text-[var(--t-primary)]">
+                                <CurrencyDisplay amount={totalSTX} />
+                            </span>
+                        </div>
+                    </div>
+                    {/* Explicitly show STX if in USD mode for wallet verification */}
+                    <div className="mt-2 text-[10px] font-sans text-right opacity-40 uppercase tracking-widest font-bold">
+                        Exact Transfer: {totalSTX.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} STX
                     </div>
                 </div>
 
@@ -147,7 +174,7 @@ const BookingSidebar = ({
                 ) : guestAddress === hostAddress ? (
                     <Button
                         className="w-full mt-6 py-4 rounded-xl text-base shadow-xl"
-                        onClick={() => window.location.href = '/dashboard'}
+                        onClick={() => router.push('/dashboard')}
                     >
                         {t('booking.manage')}
                     </Button>

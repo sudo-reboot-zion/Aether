@@ -5,6 +5,7 @@ import { RootState } from '@/redux';
 import { closeDialog, resolveDialog, setDialogInput } from '@/redux/slices/uiSlice';
 import GlassPanel from './GlassPanel';
 import { X, Check, ArrowRight } from 'lucide-react';
+import { DialogResolver } from '@/hooks/useAetherDialog';
 
 const PremiumDialog = () => {
     const dispatch = useDispatch();
@@ -28,13 +29,16 @@ const PremiumDialog = () => {
 
     const handleConfirm = () => {
         if (type === 'prompt') {
+            DialogResolver.resolve(inputValue);
             dispatch(resolveDialog(inputValue));
         } else {
+            DialogResolver.resolve(true);
             dispatch(resolveDialog(true));
         }
     };
 
     const handleCancel = () => {
+        DialogResolver.resolve(false);
         dispatch(resolveDialog(false));
     };
 

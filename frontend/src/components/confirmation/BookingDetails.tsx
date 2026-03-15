@@ -9,6 +9,8 @@ import { fetchIPFSMetadata, getIPFSUrl, PropertyMetadata } from '@/lib/ipfs';
 import { Clock, MapPin, Receipt, CreditCard } from 'lucide-react';
 import { encodePropertyId } from '@/lib/urls';
 import Identicon from '../ui/Identicon';
+import { APP_CONFIG } from '@/lib/config';
+
 
 const InfoBlock = ({ label, value, mono = false, icon: Icon, children }: { label: string, value?: string, mono?: boolean, icon?: any, children?: React.ReactNode }) => (
     <div className="mb-8">
@@ -32,12 +34,10 @@ const ReceiptRow = ({ label, value, isTotal = false }: { label: string, value: s
     </div>
 );
 
-import { APP_CONFIG } from '@/lib/config';
 
 const BookingDetails = () => {
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const { properties } = useProperties();
+    const { properties, fetchProperties } = useProperties();
     const [metadata, setMetadata] = useState<PropertyMetadata | null>(null);
 
     const txId = searchParams.get('txId') || 'Pending...';
@@ -48,15 +48,21 @@ const BookingDetails = () => {
     const [hostAddress, setHostAddress] = useState<string | null>(null);
 
     useEffect(() => {
+        if (properties.length === 0) {
+            fetchProperties();
+        }
+    }, [fetchProperties, properties.length]);
+
+    useEffect(() => {
         const load = async () => {
             if (propertyId) {
                 const prop = properties.find(p => p.id.toString() === propertyId);
                 if (prop) {
                     setHostAddress(prop.owner);
-                }
-                if (prop?.metadataUri) {
-                    const data = await fetchIPFSMetadata(prop.metadataUri);
-                    setMetadata(data);
+                    if (prop.metadataUri) {
+                        const data = await fetchIPFSMetadata(prop.metadataUri);
+                        setMetadata(data);
+                    }
                 }
             }
         };
@@ -67,18 +73,8 @@ const BookingDetails = () => {
     const hostName = metadata?.hostName || 'Verified Superhost';
     const price = parseFloat(priceStr);
     const platformFee = price * (APP_CONFIG.PLATFORM_FEE_PERCENT / 100);
-    const networkFee = 0.001; // Typically small static estimate for UX
-    const totalEscrowed = price + platformFee + networkFee;
+    const totalEscrowed = price + platformFee;
 
-    const handleContact = () => {
-        if (!hostAddress) return;
-        // Redirect to profile messages and pass booking/partner info
-        const params = new URLSearchParams();
-        params.set('tab', 'messages');
-        if (propertyId) params.set('bookingId', propertyId);
-        params.set('partner', hostAddress);
-        router.push(`/profile?${params.toString()}`);
-    };
 
     return (
         <GlassPanel className="p-12 !bg-[var(--c-white-glass)] border border-white/50 shadow-2xl shadow-black/5">
@@ -103,7 +99,6 @@ const BookingDetails = () => {
                 </h3>
                 <ReceiptRow label={`${propertyTitle} Stay`} value={`${price.toFixed(2)} STX`} />
                 <ReceiptRow label={`Service Fee (${APP_CONFIG.PLATFORM_FEE_PERCENT}%)`} value={`${platformFee.toFixed(3)} STX`} />
-                <ReceiptRow label="Network Fee" value={`${networkFee.toFixed(3)} STX`} />
                 <div className="h-[1px] bg-black/5 my-6" />
                 <div className="flex justify-between items-baseline">
                     <span className="text-2xl font-serif text-[var(--t-primary)] font-medium">Total Escrowed</span>
@@ -126,12 +121,6 @@ const BookingDetails = () => {
                         <div className="text-xl font-serif leading-none mb-2 font-medium text-[var(--t-primary)]">{hostName}</div>
                         <div className="font-sans text-[10px] text-[var(--t-secondary)] opacity-60 uppercase tracking-widest font-bold">Aether Trusted Node</div>
                     </div>
-                    <button
-                        onClick={handleContact}
-                        className="ml-auto bg-white border border-black/10 text-[var(--t-primary)] px-6 py-2.5 rounded-xl font-sans text-[10px] font-bold tracking-[0.1em] uppercase hover:bg-black hover:text-white transition-all shadow-sm"
-                    >
-                        Contact
-                    </button>
                 </div>
             </div>
         </GlassPanel>

@@ -77,8 +77,8 @@ const EscrowList: React.FC<EscrowListProps> = ({
                                     price: `${(booking.totalAmount / 1_000_000).toFixed(2)} STX`,
                                     status: booking.status === 'completed' ? 'STAY COMPLETED' : 'ACTIVE STAY'
                                 }}
-                                onRelease={() => handleRelease(booking.id)}
-                                onDispute={() => handleDispute(booking.id)}
+                                onRelease={booking.status !== 'completed' ? () => handleRelease(booking.id) : undefined}
+                                onDispute={booking.status !== 'completed' ? () => handleDispute(booking.id) : undefined}
                                 onReview={booking.status === 'completed' && !booking.hasReviewed ? () => handleReview?.(booking) : undefined}
                             />
                         ))

@@ -6,7 +6,7 @@ import {
 
 import { CONTRACT_ADDRESS, CONTRACTS } from '../config';
 
-export async function listProperty({
+export function listProperty({
     pricePerNight,
     locationTag,
     categoryTag,
@@ -30,7 +30,7 @@ export async function listProperty({
     };
 }
 
-export async function bookProperty({
+export function bookProperty({
     propertyId,
     checkIn,
     checkOut,
@@ -54,7 +54,7 @@ export async function bookProperty({
     };
 }
 
-export async function releasePayment(bookingId: number) {
+export function releasePayment(bookingId: number) {
     return {
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACTS.ESCROW,
@@ -64,7 +64,7 @@ export async function releasePayment(bookingId: number) {
     };
 }
 
-export async function cancelBooking(bookingId: number) {
+export function cancelBooking(bookingId: number) {
     return {
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACTS.ESCROW,
@@ -74,7 +74,7 @@ export async function cancelBooking(bookingId: number) {
     };
 }
 
-export async function togglePropertyStatus(propertyId: number) {
+export function togglePropertyStatus(propertyId: number) {
     return {
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACTS.ESCROW,

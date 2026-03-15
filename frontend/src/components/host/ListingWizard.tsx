@@ -14,6 +14,7 @@ import { uploadToIPFS, uploadFileToIPFS } from '@/lib/ipfs';
 import { getLocationId } from '@/constants/locations';
 import { useRouter } from 'next/navigation';
 import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
+import { useToast } from '@/hooks/useToast';
 
 import { APP_CONFIG } from '@/lib/config';
 import { WIZARD_DEFAULTS } from '@/constants/wizard';
@@ -23,6 +24,7 @@ const ListingWizard = () => {
     const { userData, connectWallet } = useAuth();
     const stxAddress = userData?.profile?.stxAddress?.testnet;
     const { listProperty } = useProperties();
+    const { toast } = useToast();
     const [isDeploying, setIsDeploying] = useState(false);
 
     const [currentStep, setCurrentStep] = useState(0);
@@ -80,13 +82,21 @@ const ListingWizard = () => {
 
     const handleDeploy = async () => {
         if (!stxAddress) {
-            alert('Please connect your wallet to publish this listing');
+            toast({
+                title: "Authentication Required",
+                description: "Please connect your wallet to publish this listing",
+                variant: "destructive"
+            });
             connectWallet();
             return;
         }
 
         if (!formData.propertyName || !formData.location || !pricing.nightlyPrice || formData.categoryTag === 0) {
-            alert('Please fill in all required fields (Name, Location, Vibe, and Price)');
+            toast({
+                title: "Missing Information",
+                description: "Please fill in all required fields (Name, Location, Vibe, and Price)",
+                variant: "destructive"
+            });
             return;
         }
 
@@ -159,7 +169,11 @@ const ListingWizard = () => {
             router.push('/dashboard');
         } catch (err) {
             console.error('Deployment error:', err);
-            alert('Failed to deploy listing. See console for details.');
+            toast({
+                title: "Publishing Failed",
+                description: "Failed to deploy listing. Please check the console for details.",
+                variant: "destructive"
+            });
         } finally {
             setIsDeploying(false);
             setIsSyncing(false);
