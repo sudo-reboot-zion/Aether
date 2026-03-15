@@ -4,6 +4,8 @@ import ListingWizard from '@/components/host/ListingWizard';
 import GlassPanel from '@/components/ui/GlassPanel';
 import Link from 'next/link';
 
+import NavLogo from '@/components/layout/Navbar/NavLogo';
+
 export default function ListPropertyPage() {
     return (
         <div className="min-h-screen pt-32 pb-20 px-6 lg:px-12 max-w-[1600px] mx-auto">
@@ -27,7 +29,11 @@ export default function ListPropertyPage() {
                         </p>
                     </div>
 
-                    <div className="hidden lg:flex items-center gap-4">
+                    <div className="hidden lg:flex items-center gap-6">
+                        {/* Aether Home Logo Link */}
+                        <div className="pr-6 border-r border-black/10">
+                            <NavLogo />
+                        </div>
                         <div className="text-right">
                             <div className="font-sans text-[10px] uppercase font-bold tracking-[0.2em] text-[var(--t-secondary)] opacity-60">Listing Status</div>
                             <div className="font-serif text-lg text-[var(--c-blue-azure)]">Drafting Mode</div>

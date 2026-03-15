@@ -20,7 +20,6 @@ export const CONTRACTS = {
 
 export const APP_CONFIG = {
     POLL_INTERVAL_MS: 3000,
-    MAX_PENDING_TIME_MS: 10 * 60 * 1000, // 10 minutes
+    MAX_PENDING_TIME_MS: 10 * 60 * 1000,    // Platform Settings
     PLATFORM_FEE_PERCENT: 2,
 } as const;
-

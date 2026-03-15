@@ -180,6 +180,27 @@ const ListingWizard = () => {
         }
     };
 
+    const validateStep = (step: number) => {
+        switch (step) {
+            case 0: // Details
+                return formData.propertyName.trim().length > 0 &&
+                    formData.location.trim().length > 0 &&
+                    formData.categoryTag > 0 &&
+                    formData.description.trim().length > 0;
+            case 1: // Images
+                return images.some(img => img.selected);
+            case 2: // Amenities (Optional but required for function signature)
+                return true;
+            case 3: // Pricing
+                return pricing.nightlyPrice && parseFloat(pricing.nightlyPrice) > 0;
+            case 4: // Blockchain (Escrow review, always valid)
+            case 5: // Final Review (Valid if deploying handles errors, but button triggers deploy anyway)
+                return true;
+            default:
+                return false;
+        }
+    };
+
     const renderStep = () => {
         switch (currentStep) {
             case 0: return <DetailsStep formData={formData} setFormData={setFormData} />;
@@ -259,8 +280,8 @@ const ListingWizard = () => {
                                 setCurrentStep(currentStep + 1);
                             }
                         }}
-                        disabled={isDeploying}
-                        className="px-12 py-5 bg-[var(--c-blue-deep)] text-white rounded-full font-sans text-xs font-bold uppercase tracking-[0.25em] shadow-xl hover:bg-[var(--c-blue-azure)] hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 flex items-center gap-3"
+                        disabled={isDeploying || !validateStep(currentStep)}
+                        className="px-12 py-5 bg-[var(--c-blue-deep)] text-white rounded-full font-sans text-xs font-bold uppercase tracking-[0.25em] shadow-xl hover:bg-[var(--c-blue-azure)] hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 disabled:hover:bg-[var(--c-blue-deep)] disabled:hover:shadow-none flex items-center gap-3"
                     >
                         {isDeploying ? (
                             <Loader2 className="w-4 h-4 animate-spin" />

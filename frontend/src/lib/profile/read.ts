@@ -20,8 +20,10 @@ export async function getSavedProperties(userAddress: string): Promise<number[]>
 
         const data = cvToValue(result);
         return Array.isArray(data) ? data.map((v: any) => Number(v.value || v)) : [];
-    } catch (error) {
-        console.error("Error fetching saved properties:", error);
+    } catch (error: any) {
+        if (!error?.message?.includes('fetch')) {
+            console.error("Error fetching saved properties:", error);
+        }
         return [];
     }
 }
@@ -38,8 +40,10 @@ export async function getUserPreferences(userAddress: string) {
         }));
 
         return cvToValue(result);
-    } catch (error) {
-        console.error("Error fetching user preferences:", error);
+    } catch (error: any) {
+        if (!error?.message?.includes('fetch')) {
+            console.error("Error fetching user preferences:", error);
+        }
         return null;
     }
 }

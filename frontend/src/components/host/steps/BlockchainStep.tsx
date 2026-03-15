@@ -1,5 +1,5 @@
 'use client';
-import { CONTRACT_ADDRESS } from '@/lib/config';
+import { APP_CONFIG, CONTRACT_ADDRESS } from '@/lib/config';
 import { Fuel, Activity, Code, ShieldCheck, ChevronDown } from 'lucide-react';
 
 interface BlockchainStepProps {
@@ -52,7 +52,7 @@ const BlockchainStep: React.FC<BlockchainStepProps> = ({ blockchain, setBlockcha
                         onChange={(e) => setBlockchain({ ...blockchain, escrow: e.target.value })}
                         className={`${selectClasses} pr-12`}
                     >
-                        <option>Standard Aether Escrow (1% fee)</option>
+                        <option>Standard Aether Escrow ({APP_CONFIG.PLATFORM_FEE_PERCENT}% fee)</option>
                         <option>Multi-sig Secure (User Managed)</option>
                         <option>Direct P2P (Trust-based)</option>
                     </select>

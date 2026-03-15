@@ -29,18 +29,20 @@ const TrendingSection = () => {
     return (
         <section className="py-24 px-6">
             <div className="max-w-[1280px] mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                    <div>
-                        <h2 className="font-sans text-xs uppercase tracking-[0.2em] text-[var(--t-secondary)] mb-4">{t('trending.collection')}</h2>
-                        <h3 className="text-4xl md:text-5xl font-light text-[var(--t-primary)]">{t('trending.title')}</h3>
+                {displayProperties.length > 0 && (
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                        <div>
+                            <h2 className="font-sans text-xs uppercase tracking-[0.2em] text-[var(--t-secondary)] mb-4">{t('trending.collection')}</h2>
+                            <h3 className="text-4xl md:text-5xl font-light text-[var(--t-primary)]">{t('trending.title')}</h3>
+                        </div>
+                        <Link href="/collection" className="group flex items-center gap-2 font-sans text-sm uppercase tracking-wider text-[var(--t-primary)] pb-1 border-b border-transparent hover:border-[var(--t-primary)] transition-all">
+                            {t('trending.viewAll')}
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </Link>
                     </div>
-                    <Link href="/collection" className="group flex items-center gap-2 font-sans text-sm uppercase tracking-wider text-[var(--t-primary)] pb-1 border-b border-transparent hover:border-[var(--t-primary)] transition-all">
-                        {t('trending.viewAll')}
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </Link>
-                </div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {isLoading && properties.length === 0 ? (

@@ -27,7 +27,7 @@ export const translations = {
         },
         trending: {
             collection: "The Collection",
-            title: "Trending Destinations",
+            title: "Featured Sanctuaries",
             viewAll: "View All Stays",
         },
         philosophy: {
@@ -264,7 +264,7 @@ export const translations = {
         },
         trending: {
             collection: "La Colección",
-            title: "Destinos de Tendencia",
+            title: "Santuarios Destacados",
             viewAll: "Ver Todas las Estancias",
         },
         philosophy: {
@@ -457,7 +457,7 @@ export const translations = {
         },
         trending: {
             collection: "La Collection",
-            title: "Destinations Tendances",
+            title: "Sanctuaires Mettant en Vedette",
             viewAll: "Voir Tous les Séjours",
         },
         philosophy: {
@@ -650,7 +650,7 @@ export const translations = {
         },
         trending: {
             collection: "コレクション",
-            title: "トレンドの目的地",
+            title: "注目のサンクチュアリ",
             viewAll: "すべての滞在先を見る",
         },
         philosophy: {
