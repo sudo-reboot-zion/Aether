@@ -243,6 +243,88 @@ export const translations = {
                 welcome: "Welcome to Aether ✦"
             }
         },
+        emptyStates: {
+            noSanctuariesMatched: {
+                title: "No Sanctuaries Matched",
+                description: "We couldn't find any sanctuaries matching your current search criteria. Try adjusting your filters to explore more possibilities.",
+                action: "Clear All Filters"
+            },
+            noManagedSanctuaries: {
+                title: "No Managed Sanctuaries",
+                description: "Your collection of curated properties on the blockchain is currently empty. List your first sanctuary to begin your journey as a host.",
+                action: "List a Property"
+            },
+            noRecentTrips: {
+                title: "No Recent Trips",
+                description: "You haven't embarked on any journeys yet. Explore our curated collection of sanctuaries to find your next destination.",
+                action: "Explore Collection"
+            }
+        },
+        profile: {
+            savedHomes: "Saved Homes",
+            noSavedHomes: {
+                title: "Your sanctuary collection is empty",
+                description: "Bookmark properties you love to see them here in your private vault."
+            }
+        },
+        collection: {
+            title: "The Collection",
+            subtitle: "Discover unique sanctuaries on-chain",
+            filters: {
+                location: "Location",
+                allLocations: "All Locations",
+                maxPrice: "Max Price",
+                anyPrice: "Any Price",
+                under: "Under",
+                allStays: "All Stays",
+                sortBy: "Sort by:",
+                newest: "Newest",
+                priceLowHigh: "Price: Low to High",
+                priceHighLow: "Price: High to Low"
+            },
+            activeFilter: "All Stays",
+            viewMode: {
+                grid: "Grid View",
+                list: "List View"
+            },
+            loader: {
+                syncing: "Syncing ledger...",
+                fetching: "Fetching sanctuaries...",
+                vibe: "Vibe discovery...",
+                ready: "Collection Ready"
+            },
+            loading: "Loading collection...",
+            verifiedLedger: "Verified Ledger"
+        },
+        dashboard: {
+            hostTitle: "Your Managed Sanctuaries",
+            guestTitle: "Your Recent Trips",
+            pendingListing: "Pending Listing...",
+            active: "Active",
+            hidden: "Hidden",
+            checkInBlock: "Check-in Block:",
+            status: "Status:"
+        },
+        protocol: {
+            liveProtocol: "Live Protocol",
+            properties: "Properties",
+            propertiesSub: "On-chain listings",
+            bookings: "Bookings",
+            bookingsSub: "Total reservations",
+            completed: "Completed",
+            completedSub: "Stays settled",
+            platformFee: "Platform Fee",
+            platformFeeSub: "Flat. No hidden fees."
+        },
+        common: {
+            verified: "Verified",
+            enigmaSanctuary: "Enigma Sanctuary",
+            undisclosedLocation: "Undisclosed Location",
+            noImage: "No Image",
+            untitledProperty: "Untitled Property",
+            unknownLocation: "Unknown Location",
+            pending: "Pending"
+        }
     },
     es: {
         nav: {
@@ -307,6 +389,20 @@ export const translations = {
             copyright: "© 2026 Aether Stays Inc.",
             privacy: "Privacidad",
             terms: "Términos",
+            discovery: "Descubrimiento",
+            collection: "Colección",
+            trending: "Tendencias",
+            vibes: "Explorar Ambientes",
+            manifesto: "Nuestro Manifiesto",
+            hosting: "Hosting",
+            listSanctuary: "Crea tu Anuncio",
+            hostDashboard: "Panel de Anfitrión",
+            hostingStandards: "Estándares de Hosting",
+            safetyTrust: "Seguridad y Confianza",
+            protocol: "Protocolo",
+            network: "Red",
+            contracts: "Contratos Inteligentes",
+            security: "Seguridad Bitcoin",
         },
         details: {
             seeking: "Buscando Santuario...",
@@ -444,6 +540,88 @@ export const translations = {
                 email: "hello@aether.luxury"
             },
         },
+        emptyStates: {
+            noSanctuariesMatched: {
+                title: "No se encontraron santuarios",
+                description: "No pudimos encontrar ningún santuario que coincida con sus criterios de búsqueda actuales. Intente ajustar sus filtros para explorar más posibilidades.",
+                action: "Limpiar todos los filtros"
+            },
+            noManagedSanctuaries: {
+                title: "No hay santuarios gestionados",
+                description: "Su colección de propiedades curadas en la cadena de bloques está actualmente vacía. Publique su primer santuario para comenzar su viaje como anfitrión.",
+                action: "Publicar una propiedad"
+            },
+            noRecentTrips: {
+                title: "No hay viajes recientes",
+                description: "Aún no has emprendido ningún viaje. Explora nuestra colección curada de santuarios para encontrar tu próximo destino.",
+                action: "Explorar la colección"
+            }
+        },
+        profile: {
+            savedHomes: "Casas Guardadas",
+            noSavedHomes: {
+                title: "Tu colección de santuarios está vacía",
+                description: "Marca las propiedades que te gustan para verlas aquí en tu bóveda privada."
+            }
+        },
+        collection: {
+            title: "La Colección",
+            subtitle: "Descubre santuarios únicos en cadena",
+            filters: {
+                location: "Ubicación",
+                allLocations: "Todas las ubicaciones",
+                maxPrice: "Precio máximo",
+                anyPrice: "Cualquier precio",
+                under: "Menos de",
+                allStays: "Todas las estancias",
+                sortBy: "Ordenar por:",
+                newest: "Más reciente",
+                priceLowHigh: "Precio: menor a mayor",
+                priceHighLow: "Precio: mayor a menor"
+            },
+            activeFilter: "Todas las estancias",
+            viewMode: {
+                grid: "Vista de cuadrícula",
+                list: "Vista de lista"
+            },
+            loader: {
+                syncing: "Sincronizando el libro mayor...",
+                fetching: "Buscando santuarios...",
+                vibe: "Descubrimiento de ambiente...",
+                ready: "Colección lista"
+            },
+            loading: "Cargando colección...",
+            verifiedLedger: "Libro mayor verificado"
+        },
+        dashboard: {
+            hostTitle: "Tus santuarios gestionados",
+            guestTitle: "Tus viajes recientes",
+            pendingListing: "Anuncio pendiente...",
+            active: "Activo",
+            hidden: "Oculto",
+            checkInBlock: "Bloque de entrada:",
+            status: "Estado:"
+        },
+        protocol: {
+            liveProtocol: "Protocolo en Vivo",
+            properties: "Propiedades",
+            propertiesSub: "Listados en cadena",
+            bookings: "Reservas",
+            bookingsSub: "Reservas totales",
+            completed: "Completado",
+            completedSub: "Estancias liquidadas",
+            platformFee: "Tarifa de Plataforma",
+            platformFeeSub: "Fija. Sin tarifas ocultas."
+        },
+        common: {
+            verified: "Verificado",
+            enigmaSanctuary: "Santuario Enigma",
+            undisclosedLocation: "Ubicación no revelada",
+            noImage: "Sin imagen",
+            untitledProperty: "Propiedad sin título",
+            unknownLocation: "Ubicación desconocida",
+            pending: "Pendiente"
+        }
     },
     fr: {
         nav: {
@@ -508,6 +686,20 @@ export const translations = {
             copyright: "© 2026 Aether Stays Inc.",
             privacy: "Confidentialité",
             terms: "Conditions",
+            discovery: "Découverte",
+            collection: "Collection",
+            trending: "Tendances",
+            vibes: "Explorer les Ambiances",
+            manifesto: "Notre Manifeste",
+            hosting: "Hébergement",
+            listSanctuary: "Inscrivez votre Sanctuaire",
+            hostDashboard: "Tableau de bord Hôte",
+            hostingStandards: "Normes d'Hébergement",
+            safetyTrust: "Sécurité et Confiance",
+            protocol: "Protocole",
+            network: "Réseau",
+            contracts: "Contrats Intelligents",
+            security: "Sécurité Bitcoin",
         },
         details: {
             seeking: "Recherche du Sanctuaire...",
@@ -645,6 +837,88 @@ export const translations = {
                 email: "hello@aether.luxury"
             },
         },
+        emptyStates: {
+            noSanctuariesMatched: {
+                title: "Aucun sanctuaire ne correspond",
+                description: "Nous n'avons trouvé aucun sanctuaire correspondant à vos critères de recherche actuels. Essayez d'ajuster vos filtres pour explorer plus de possibilités.",
+                action: "Effacer tous les filtres"
+            },
+            noManagedSanctuaries: {
+                title: "Aucun sanctuaire géré",
+                description: "Votre collection de propriétés curatées sur la blockchain est actuellement vide. Inscrivez votre premier sanctuaire pour commencer votre voyage en tant qu'hôte.",
+                action: "Inscrire une propriété"
+            },
+            noRecentTrips: {
+                title: "Aucun voyage récent",
+                description: "Vous n'avez pas encore entrepris de voyage. Explorez notre collection de sanctuaires pour trouver votre prochaine destination.",
+                action: "Explorer la collection"
+            }
+        },
+        profile: {
+            savedHomes: "Maisons Enregistrées",
+            noSavedHomes: {
+                title: "Votre collection de sanctuaires est vide",
+                description: "Enregistrez les propriétés que vous aimez pour les voir ici dans votre coffre privé."
+            }
+        },
+        collection: {
+            title: "La Collection",
+            subtitle: "Découvrez des sanctuaires uniques sur la chaîne",
+            filters: {
+                location: "Emplacement",
+                allLocations: "Tous les lieux",
+                maxPrice: "Prix maximum",
+                anyPrice: "Tous les prix",
+                under: "Moins de",
+                allStays: "Tous les séjours",
+                sortBy: "Trier par :",
+                newest: "Plus récent",
+                priceLowHigh: "Prix : croissant",
+                priceHighLow: "Prix : décroissant"
+            },
+            activeFilter: "Tous les séjours",
+            viewMode: {
+                grid: "Vue en grille",
+                list: "Vue en liste"
+            },
+            loader: {
+                syncing: "Synchronisation du registre...",
+                fetching: "Recherche de sanctuaires...",
+                vibe: "Découverte de l'ambiance...",
+                ready: "Collection prête"
+            },
+            loading: "Chargement de la collection...",
+            verifiedLedger: "Registre vérifié"
+        },
+        dashboard: {
+            hostTitle: "Vos sanctuaires gérés",
+            guestTitle: "Vos voyages récents",
+            pendingListing: "Annonce en attente...",
+            active: "Actif",
+            hidden: "Masqué",
+            checkInBlock: "Bloc d'arrivée :",
+            status: "Statut :"
+        },
+        protocol: {
+            liveProtocol: "Protocole en Direct",
+            properties: "Propriétés",
+            propertiesSub: "Annonces sur la chaîne",
+            bookings: "Réservations",
+            bookingsSub: "Total des réservations",
+            completed: "Terminé",
+            completedSub: "Séjours réglés",
+            platformFee: "Frais de Plateforme",
+            platformFeeSub: "Fixe. Sans frais cachés."
+        },
+        common: {
+            verified: "Vérifié",
+            enigmaSanctuary: "Sanctuaire Enigma",
+            undisclosedLocation: "Emplacement non divulgué",
+            noImage: "Pas d'image",
+            untitledProperty: "Propriété sans titre",
+            unknownLocation: "Emplacement inconnu",
+            pending: "En attente"
+        }
     },
     ja: {
         nav: {
@@ -709,6 +983,20 @@ export const translations = {
             copyright: "© 2026 Aether Stays Inc. 全著作権所有。",
             privacy: "プライバシー",
             terms: "利用規約",
+            discovery: "発見",
+            collection: "コレクション",
+            trending: "トレンド",
+            vibes: "雰囲気を探索",
+            manifesto: "私たちのマニフェスト",
+            hosting: "ホスティング",
+            listSanctuary: "あなたのサンクチュアリを掲載",
+            hostDashboard: "ホストダッシュボード",
+            hostingStandards: "ホスティング基準",
+            safetyTrust: "安全と信頼",
+            protocol: "プロトコル",
+            network: "ネットワーク",
+            contracts: "スマートコントラクト",
+            security: "Bitcoinのセキュリティ",
         },
         details: {
             seeking: "サンクチュアリを探しています...",
@@ -829,6 +1117,88 @@ export const translations = {
                 email: "hello@aether.luxury"
             },
         },
+        emptyStates: {
+            noSanctuariesMatched: {
+                title: "一致するサンクチュアリがありません",
+                description: "現在の検索条件に一致するサンクチュアリが見つかりませんでした。フィルターを調整して他の可能性を探してみてください。",
+                action: "すべてのフィルターをクリア"
+            },
+            noManagedSanctuaries: {
+                title: "管理されているサンクチュアリはありません",
+                description: "ブロックチェーン上のあなたの厳選された物件コレクションは現在空です。ホストとしての旅を始めるために、最初のサンクチュアリを掲載してください。",
+                action: "物件を掲載する"
+            },
+            noRecentTrips: {
+                title: "最近の旅行はありません",
+                description: "まだ一度も旅に出ていません。厳選されたサンクチュアリのコレクションを探索して、次の目的地を見つけてください。",
+                action: "コレクションを探索する"
+            }
+        },
+        profile: {
+            savedHomes: "保存済みの家",
+            noSavedHomes: {
+                title: "あなたのサンクチュアリコレクションは空です",
+                description: "お気に入りの物件をブックマークして、ここにあなたのプライベートな保管庫を表示しましょう。"
+            }
+        },
+        collection: {
+            title: "コレクション",
+            subtitle: "オンチェーンでユニークなサンクチュアリを発見",
+            filters: {
+                location: "場所",
+                allLocations: "すべての場所",
+                maxPrice: "最高価格",
+                anyPrice: "すべての価格",
+                under: "以下",
+                allStays: "すべての滞在",
+                sortBy: "並べ替え:",
+                newest: "新着順",
+                priceLowHigh: "価格の安い順",
+                priceHighLow: "価格の高い順"
+            },
+            activeFilter: "すべての滞在",
+            viewMode: {
+                grid: "グリッド表示",
+                list: "リスト表示"
+            },
+            loader: {
+                syncing: "台帳を同期中...",
+                fetching: "サンクチュアリを取得中...",
+                vibe: "雰囲気を発見中...",
+                ready: "コレクションの準備完了"
+            },
+            loading: "コレクションを読み込み中...",
+            verifiedLedger: "検証済み台帳"
+        },
+        dashboard: {
+            hostTitle: "管理中のサンクチュアリ",
+            guestTitle: "最近の旅行",
+            pendingListing: "掲載保留中...",
+            active: "有効",
+            hidden: "非表示",
+            checkInBlock: "チェックインブロック:",
+            status: "ステータス:"
+        },
+        protocol: {
+            liveProtocol: "ライブプロトコル",
+            properties: "プロパティ",
+            propertiesSub: "オンチェーンリスト",
+            bookings: "予約",
+            bookingsSub: "総予約数",
+            completed: "完了",
+            completedSub: "決済済み滞在",
+            platformFee: "プラットフォーム手数料",
+            platformFeeSub: "一律。隠れた手数料なし。"
+        },
+        common: {
+            verified: "検証済み",
+            enigmaSanctuary: "エニグマ・サンクチュアリ",
+            undisclosedLocation: "未公開の場所",
+            noImage: "画像なし",
+            untitledProperty: "無題の物件",
+            unknownLocation: "不明な場所",
+            pending: "保留中"
+        }
     },
 };
 

@@ -9,8 +9,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { useProperties } from '@/hooks/useProperties';
 import Link from 'next/link';
 import { encodePropertyId } from '@/lib/urls';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const SavedHomes = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const { userData } = useAuth();
     const userAddress = userData?.profile?.stxAddress?.testnet || '';
@@ -30,15 +32,15 @@ const SavedHomes = () => {
 
     return (
         <section className="mb-12">
-            <h2 className="text-2xl font-serif text-[var(--t-primary)] font-semibold mb-6">Saved Homes</h2>
+            <h2 className="text-2xl font-serif text-[var(--t-primary)] font-semibold mb-6">{t('profile.savedHomes')}</h2>
 
             {(favoriteHomes.length === 0 && !profileLoading) ? (
                 <div className="bg-white/40 border border-dashed border-black/10 rounded-[32px] p-10 flex flex-col items-center justify-center text-center gap-3">
                     <div className="p-3 bg-white rounded-full text-pink-400 shadow-sm mb-1">
                         <Heart className="w-6 h-6" />
                     </div>
-                    <p className="text-[var(--t-primary)] font-serif text-lg font-medium">Your sanctuary collection is empty</p>
-                    <p className="text-[var(--t-secondary)] text-sm font-sans max-w-[280px]">Bookmark properties you love to see them here in your private vault.</p>
+                    <p className="text-[var(--t-primary)] font-serif text-lg font-medium">{t('profile.noSavedHomes.title')}</p>
+                    <p className="text-[var(--t-secondary)] text-sm font-sans max-w-[280px]">{t('profile.noSavedHomes.description')}</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -55,7 +57,7 @@ const SavedHomes = () => {
                                     />
                                 ) : (
                                     <div className="absolute inset-0 bg-[var(--c-cream)] flex items-center justify-center text-[var(--c-blue-azure)]">
-                                        No Image
+                                        {t('common.noImage')}
                                     </div>
                                 )}
                                 <div className="absolute top-2.5 right-2.5 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-[#E91E63] shadow-sm transform hover:scale-110 transition-transform">
@@ -63,8 +65,8 @@ const SavedHomes = () => {
                                 </div>
                             </div>
                             <div className="px-1 pb-1">
-                                <h3 className="text-lg font-semibold text-[var(--t-primary)] font-serif mb-0.5">{fav.metadata?.title || 'Untitled Property'}</h3>
-                                <p className="text-[var(--t-secondary)] text-sm font-sans">{fav.metadata?.location || 'Unknown Location'}</p>
+                                <h3 className="text-lg font-semibold text-[var(--t-primary)] font-serif mb-0.5">{fav.metadata?.title || t('common.untitledProperty')}</h3>
+                                <p className="text-[var(--t-secondary)] text-sm font-sans">{fav.metadata?.location || t('common.unknownLocation')}</p>
                             </div>
                         </Link>
                     ))}

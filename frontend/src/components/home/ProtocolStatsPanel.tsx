@@ -2,6 +2,7 @@
 import React from 'react';
 import { useProtocolStats } from '@/hooks/useProtocolStats';
 import GlassPanel from '../ui/GlassPanel';
+import { useTranslation } from '@/hooks/useTranslation';
 
 function StatBlock({
     label,
@@ -38,6 +39,7 @@ function StatBlock({
 }
 
 export default function ProtocolStatsPanel() {
+    const { t } = useTranslation();
     const { totalProperties, totalBookings, completedBookings, network, isLoading } = useProtocolStats();
 
     return (
@@ -78,34 +80,34 @@ export default function ProtocolStatsPanel() {
                         </span>
 
                         <span className="relative font-sans text-[9px] uppercase tracking-[0.25em] font-bold text-white/90">
-                            Live Protocol · {network}
+                            {t('protocol.liveProtocol')} · {network}
                         </span>
                     </div>
                 </div>
 
                 <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-0 items-center">
                     <StatBlock
-                        label="Properties"
+                        label={t('protocol.properties')}
                         value={isLoading ? '—' : totalProperties.toLocaleString()}
-                        sub="On-chain listings"
+                        sub={t('protocol.propertiesSub')}
                         isLoading={isLoading}
                     />
                     <StatBlock
-                        label="Bookings"
+                        label={t('protocol.bookings')}
                         value={isLoading ? '—' : totalBookings.toLocaleString()}
-                        sub="Total reservations"
+                        sub={t('protocol.bookingsSub')}
                         isLoading={isLoading}
                     />
                     <StatBlock
-                        label="Completed"
+                        label={t('protocol.completed')}
                         value={isLoading ? '—' : completedBookings.toLocaleString()}
-                        sub="Stays settled"
+                        sub={t('protocol.completedSub')}
                         isLoading={isLoading}
                     />
                     <StatBlock
-                        label="Platform Fee"
+                        label={t('protocol.platformFee')}
                         value="2%"
-                        sub="Flat. No hidden fees."
+                        sub={t('protocol.platformFeeSub')}
                         isLoading={false}
                         isLast={true}
                     />

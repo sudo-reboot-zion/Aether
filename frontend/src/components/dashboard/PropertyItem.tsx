@@ -22,12 +22,12 @@ const PropertyItem: React.FC<PropertyItemProps> = ({ name, location, status, isA
             </div>
             <div className="flex items-center gap-2 pr-2">
                 <span
-                    className={`px-5 py-2 rounded-full text-xs font-medium flex items-center gap-2 ${status === 'Active'
+                    className={`px-5 py-2 rounded-full text-xs font-medium flex items-center gap-2 ${isActive
                         ? 'bg-[#E3FCEF] text-[#006644]'
                         : 'bg-[#F2F4F7] text-[var(--t-secondary)] text-opacity-70'
                         }`}
                 >
-                    {status === 'Active' ? <CheckCircle2 className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    {isActive ? <CheckCircle2 className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
                     {status}
                 </span>
                 <div

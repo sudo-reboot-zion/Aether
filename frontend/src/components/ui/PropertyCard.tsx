@@ -9,6 +9,7 @@ import { useProfile } from '@/hooks/useProfile';
 import { useAuth } from '@/hooks/useAuth';
 import GridCard from './PropertyCard/GridCard';
 import ListCard from './PropertyCard/ListCard';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface PropertyCardProps {
     id?: string | number;
@@ -28,7 +29,8 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = (props) => {
-    const { id, metadataUri, image, title, location, rating = "Verified", layout = 'grid' } = props;
+    const { t } = useTranslation();
+    const { id, metadataUri, image, title, location, rating = t('common.verified'), layout = 'grid' } = props;
     const dispatch = useDispatch();
     const { userData } = useAuth();
     const { saveProperty } = useProfile();
@@ -59,8 +61,8 @@ const PropertyCard: React.FC<PropertyCardProps> = (props) => {
         }
     };
 
-    const displayTitle = metadata?.title || title || 'Enigma Sanctuary';
-    const displayLocation = metadata?.location || location || 'Undisclosed Location';
+    const displayTitle = metadata?.title || title || t('common.enigmaSanctuary');
+    const displayLocation = metadata?.location || location || t('common.undisclosedLocation');
     const validImages = metadata?.images?.filter(
         (url) => url && !url.startsWith('blob:') && !url.startsWith('data:')
     ) || [];

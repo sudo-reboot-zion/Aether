@@ -15,8 +15,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux';
 import { GenerativeLoader } from '@/components/ui/GenerativeLoader';
 import { LayoutGrid, List } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 function CollectionContent() {
+    const { t } = useTranslation();
     const { properties, fetchProperties, isLoading } = useProperties();
     const searchParams = useSearchParams();
     const initialVibe = searchParams.get('vibe');
@@ -25,7 +27,7 @@ function CollectionContent() {
     // Filter State
     const [location, setLocation] = useState('all');
     const [priceRange, setPriceRange] = useState('any');
-    const [sortBy, setSortBy] = useState('Newest');
+    const [sortBy, setSortBy] = useState(t('collection.filters.newest'));
     const [activeFilter, setActiveFilter] = useState('All Stays');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
@@ -87,16 +89,16 @@ function CollectionContent() {
         }
 
         // 5. Sort
-        if (sortBy === 'Price: Low to High') {
+        if (sortBy === t('collection.filters.priceLowHigh')) {
             result.sort((a, b) => a.pricePerNight - b.pricePerNight);
-        } else if (sortBy === 'Price: High to Low') {
+        } else if (sortBy === t('collection.filters.priceHighLow')) {
             result.sort((a, b) => b.pricePerNight - a.pricePerNight);
         } else {
             result.sort((a, b) => b.createdAt - a.createdAt);
         }
 
         return result;
-    }, [properties, location, priceRange, sortBy, activeFilter, query]);
+    }, [properties, location, priceRange, sortBy, activeFilter, query, t]);
 
     return (
         <div className="pt-32 pb-24 px-8 max-w-[1440px] mx-auto">
@@ -116,14 +118,14 @@ function CollectionContent() {
                     <button
                         onClick={() => setViewMode('grid')}
                         className={`p-2.5 rounded-full transition-all duration-300 ${viewMode === 'grid' ? 'bg-[var(--c-blue-deep)] text-white shadow-md' : 'text-[var(--t-secondary)] hover:bg-white/40'}`}
-                        title="Grid View"
+                        title={t('collection.viewMode.grid')}
                     >
                         <LayoutGrid size={18} />
                     </button>
                     <button
                         onClick={() => setViewMode('list')}
                         className={`p-2.5 rounded-full transition-all duration-300 ${viewMode === 'list' ? 'bg-[var(--c-blue-deep)] text-white shadow-md' : 'text-[var(--t-secondary)] hover:bg-white/40'}`}
-                        title="List View"
+                        title={t('collection.viewMode.list')}
                     >
                         <List size={18} />
                     </button>
@@ -138,10 +140,10 @@ function CollectionContent() {
                 ) : filteredProperties.length === 0 ? (
                     <div className="col-span-full">
                         <EmptyState
-                            title="No Sanctuaries Matched"
-                            description="We couldn't find any sanctuaries matching your current search criteria. Try adjusting your filters to explore more possibilities."
+                            title={t('emptyStates.noSanctuariesMatched.title')}
+                            description={t('emptyStates.noSanctuariesMatched.description')}
                             action={{
-                                label: "Clear All Filters",
+                                label: t('emptyStates.noSanctuariesMatched.action'),
                                 onClick: () => { setLocation('all'); setPriceRange('any'); setActiveFilter('All Stays'); }
                             }}
                         />
@@ -153,7 +155,7 @@ function CollectionContent() {
                             id={property.id}
                             metadataUri={property.metadataUri}
                             price={`${(property.pricePerNight / 1000000).toFixed(2)} STX`}
-                            badge={property.id < 0 ? 'Pending' : undefined}
+                            badge={property.id < 0 ? t('common.pending') : undefined}
                             layout={viewMode}
                         />
                     ))
@@ -164,7 +166,7 @@ function CollectionContent() {
                 <div className="mt-20 flex justify-center items-center gap-4">
                     <div className="flex gap-2 font-sans text-xs font-bold uppercase tracking-[0.2em]">
                         <button className="w-10 h-10 rounded-full bg-[var(--t-primary)] text-white flex items-center justify-center shadow-lg">1</button>
-                        <span className="flex items-center px-2 text-[var(--t-secondary)] opacity-60">Verified Ledger</span>
+                        <span className="flex items-center px-2 text-[var(--t-secondary)] opacity-60">{t('collection.verifiedLedger')}</span>
                     </div>
                 </div>
             )}
@@ -173,6 +175,7 @@ function CollectionContent() {
 }
 
 export default function CollectionPage() {
+    const { t } = useTranslation();
     const [isInitialLoading, setIsInitialLoading] = React.useState(true);
 
     return (
@@ -180,13 +183,13 @@ export default function CollectionPage() {
             {isInitialLoading && (
                 <GenerativeLoader
                     duration={2500}
-                    messages={["Syncing ledger...", "Fetching sanctuaries...", "Vibe discovery..."]}
-                    completeMessage="Collection Ready"
+                    messages={[t('collection.loader.syncing'), t('collection.loader.fetching'), t('collection.loader.vibe')]}
+                    completeMessage={t('collection.loader.ready')}
                     onComplete={() => setIsInitialLoading(false)}
                 />
             )}
             <Navbar />
-            <Suspense fallback={<div className="pt-32 pb-24 text-center font-serif text-[var(--t-secondary)]">Loading collection...</div>}>
+            <Suspense fallback={<div className="pt-32 pb-24 text-center font-serif text-[var(--t-secondary)]">{t('collection.loading')}</div>}>
                 <CollectionContent />
             </Suspense>
             <Footer />
