@@ -14,18 +14,31 @@ const HeroSection = () => {
         <header className="relative pt-40 pb-20 px-6 min-h-screen flex flex-col justify-center">
             <div className="max-w-[1280px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-7 flex flex-col gap-8 z-10">
-                    <div className="group relative">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--c-blue-azure)] to-[var(--c-blue-haze)] rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-[rgba(27,64,102,0.1)] bg-white/60 backdrop-blur-xl shadow-sm animate-badge-glow overflow-hidden">
-                            {/* Shimmer Effect */}
-                            <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_5s_infinite] rotate-12"></div>
+                    <div className="flex items-center gap-6 group mb-4">
+                        {/* Sovereign Mark - Architectural Anchor */}
+                        <div className="relative flex items-center h-12">
+                            <div className="w-[1px] h-full bg-[var(--c-blue-azure)]/30 absolute left-1/2 -translate-x-1/2 group-hover:h-16 transition-all duration-700"></div>
+                            <div className="relative z-10 w-8 h-8 flex items-center justify-center bg-white/40 backdrop-blur-md rounded-sm border border-[var(--c-blue-azure)]/20 shadow-sm animate-float">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--c-blue-azure)] group-hover:rotate-45 transition-transform duration-700">
+                                    <rect x="3" y="3" width="18" height="18" rx="1" />
+                                    <path d="M12 3v18" />
+                                    <path d="M3 12h18" />
+                                    <circle cx="12" cy="12" r="4" />
+                                </svg>
+                            </div>
+                        </div>
 
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[var(--c-blue-azure)] animate-float">
-                                <path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12z" fill="currentColor" fillOpacity=".1" />
-                                <path d="M12 6L4 10V14L12 18L20 14V10L12 6ZM12 8.5L17.5 11.25L12 14L6.5 11.25L12 8.5Z" fill="currentColor" />
-                                <circle cx="12" cy="12" r="2" fill="currentColor" className="animate-pulse" />
-                            </svg>
-                            <span className="font-sans text-[11px] uppercase font-bold tracking-[0.2em] text-[var(--t-primary)] mix-blend-multiply opacity-90">{t('hero.badge')}</span>
+                        <div className="flex flex-col gap-1">
+                            <span className="font-sans text-[10px] uppercase font-bold tracking-[0.3em] text-[var(--t-primary)] opacity-60">Digital Sovereignty</span>
+                            <div className="flex items-center gap-2">
+                                <span className="relative flex h-1.5 w-1.5 shrink-0">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--c-blue-azure)] opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--c-blue-azure)]" />
+                                </span>
+                                <span className="font-sans text-[11px] uppercase font-medium tracking-[0.15em] text-[var(--t-primary)] whitespace-nowrap">
+                                    {t('hero.badge')}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
