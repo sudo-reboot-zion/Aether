@@ -23,7 +23,7 @@ export default function AnalyticsPage() {
 
     const { properties } = useProperties();
     const { bookings } = useBookings();
-    const { fetchUserStats, fetchUserReviews, userReviews } = useReputation(userAddress);
+    const { fetchUserStats, fetchReceivedReviews, receivedReviews } = useReputation(userAddress);
 
     const [stats, setStats] = useState<UserStats | null>(null);
     const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -32,9 +32,9 @@ export default function AnalyticsPage() {
     useEffect(() => {
         if (userAddress) {
             fetchUserStats(userAddress).then(s => setStats(s));
-            fetchUserReviews(userAddress);
+            fetchReceivedReviews(userAddress);
         }
-    }, [userAddress, fetchUserStats, fetchUserReviews]);
+    }, [userAddress, fetchUserStats, fetchReceivedReviews]);
 
     const myProperties = properties.filter(p => userAddress && p.owner === userAddress);
     const myHostBookings = bookings.filter(b => b.host === userAddress);
@@ -119,7 +119,7 @@ export default function AnalyticsPage() {
                         <RecentActivityTable bookings={myHostBookings} />
                     </div>
                     <div className="lg:col-span-1">
-                        <RecentReviewsList reviews={userReviews} />
+                        <RecentReviewsList reviews={receivedReviews} />
                     </div>
                 </div>
             </main>

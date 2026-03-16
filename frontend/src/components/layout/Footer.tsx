@@ -12,8 +12,8 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     <div className="col-span-1 md:col-span-1">
                         <div className="flex items-center gap-2 font-semibold text-2xl tracking-tight text-[var(--t-primary)] mb-6">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                                <path d="M7 19a4 4 0 0 1-4-4 4 4 0 0 1 4-4 4 4 0 0 1 .1-1 7 7 0 0 1 13.8 0l.1 1a4 4 0 0 1 4 4 4 4 0 0 1-4 4H7z" />
                             </svg>
                             AETHER
                         </div>

@@ -96,22 +96,37 @@ const RequestCard: React.FC<RequestCardProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         {onRelease && (
-                            <button
-                                className="w-full h-10 rounded-full bg-[var(--c-blue-azure)] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg shadow-blue-500/10 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                                onClick={onRelease}
-                            >
-                                <CreditCard className="w-3 h-3" /> Release Payment
-                            </button>
+                            <div className="flex gap-2">
+                                <button
+                                    className="flex-[2] h-10 rounded-full bg-[var(--c-blue-azure)] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg shadow-blue-500/10 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                                    onClick={onRelease}
+                                >
+                                    <CreditCard className="w-3 h-3" /> Release Payment
+                                </button>
+                                {onDispute && (
+                                    <button
+                                        className="flex-1 h-10 rounded-full bg-white border border-red-100 text-red-500 text-[10px] font-bold uppercase tracking-wider hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+                                        onClick={onDispute}
+                                        title="Raise Dispute"
+                                    >
+                                        <ShieldAlert className="w-3 h-3" /> Dispute
+                                    </button>
+                                )}
+                            </div>
                         )}
+
                         {type === 'completed' && onReview && (
                             <button
-                                className="w-full h-10 rounded-full bg-[var(--c-blue-deep)] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                                className="w-full h-10 rounded-full bg-[var(--c-blue-deep)] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 px-6"
                                 onClick={onReview}
                             >
-                                <Sparkles className="w-3 h-3" /> Leave Review
+                                <Sparkles className="w-3 h-3 text-amber-400" />
+                                <span>Leave a Review</span>
+                                <Check className="w-3 h-3 ml-auto opacity-50" />
                             </button>
                         )}
-                        {type !== 'completed' && onDispute && (
+
+                        {type !== 'completed' && !onRelease && onDispute && (
                             <button
                                 className="w-full h-10 rounded-full bg-white border border-red-50 text-red-500 text-[10px] font-bold uppercase tracking-wider hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
                                 onClick={onDispute}

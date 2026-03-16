@@ -17,7 +17,7 @@ function StatBlock({
     isLast?: boolean;
 }) {
     return (
-        <div className={`px-4 py-2 ${!isLast ? 'border-b md:border-b-0 md:border-r border-[rgba(27,64,102,0.1)]' : ''} w-full flex flex-col justify-center`}>
+        <div className={`px-4 py-2 ${!isLast ? 'border-b md:border-b-0 md:border-r border-[var(--c-blue-deep)]/20' : ''} w-full flex flex-col justify-center`}>
             <span className="block font-serif text-2xl md:text-3xl font-light text-[var(--t-primary)] mb-1 whitespace-nowrap">
                 {label}
             </span>

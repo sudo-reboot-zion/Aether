@@ -111,7 +111,15 @@ export const translations = {
             "smart home": "Smart Home",
             "ocean view": "Ocean View",
             "infinity pool": "Infinity Pool",
-            "private spa": "Private Spa"
+            "private spa": "Private Spa",
+            "chef's kitchen": "Chef's Kitchen",
+            "ev charging": "EV Charging",
+            "private gym": "Private Gym",
+            "home cinema": "Home Cinema",
+            "wine cellar": "Wine Cellar",
+            "24/7 security": "24/7 Security",
+            "helipad": "Helipad",
+            "butler service": "Butler Service"
         },
         location: {
             "paris, france": "Paris, France",
@@ -334,7 +342,15 @@ export const translations = {
             "smart home": "Casa Inteligente",
             "ocean view": "Vista al Mar",
             "infinity pool": "Piscina Infinita",
-            "private spa": "Spa Privado"
+            "private spa": "Spa Privado",
+            "chef's kitchen": "Cocina de Chef",
+            "ev charging": "Carga de VE",
+            "private gym": "Gimnasio Privado",
+            "home cinema": "Cine en Casa",
+            "wine cellar": "Bodega de Vinos",
+            "24/7 security": "Seguridad 24/7",
+            "helipad": "Helipuerto",
+            "butler service": "Servicio de Mayordomo"
         },
         location: {
             "paris, france": "París, Francia",
@@ -527,7 +543,15 @@ export const translations = {
             "smart home": "Maison Intelligente",
             "ocean view": "Vue sur l'Océan",
             "infinity pool": "Piscine à Débordement",
-            "private spa": "Spa Privé"
+            "private spa": "Spa Privé",
+            "chef's kitchen": "Cuisine de Chef",
+            "ev charging": "Recharge VE",
+            "private gym": "Salle de Sport Privée",
+            "home cinema": "Cinéma Maison",
+            "wine cellar": "Cave à Vin",
+            "24/7 security": "Sécurité 24/7",
+            "helipad": "Héliport",
+            "butler service": "Service de Majordome"
         },
         location: {
             "paris, france": "Paris, France",
@@ -713,7 +737,15 @@ export const translations = {
             "smart home": "スマートホーム",
             "ocean view": "オーシャンビュー",
             "infinity pool": "インフィニティプール",
-            "private spa": "プライベートスパ"
+            "private spa": "プライベートスパ",
+            "chef's kitchen": "シェフズキッチン",
+            "ev charging": "EV充電",
+            "private gym": "プライベートジム",
+            "home cinema": "ホームシネマ",
+            "wine cellar": "ワインセラー",
+            "24/7 security": "24時間セキュリティ",
+            "helipad": "ヘリポート",
+            "butler service": "バトラーサービス"
         },
         location: {
             "paris, france": "パリ、フランス",

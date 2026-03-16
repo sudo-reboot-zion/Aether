@@ -32,12 +32,12 @@ export default function Icon() {
                     height="32"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#1B4066"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                 >
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    <path d="M7 19a4 4 0 0 1-4-4 4 4 0 0 1 4-4 4 4 0 0 1 .1-1 7 7 0 0 1 13.8 0l.1 1a4 4 0 0 1 4 4 4 4 0 0 1-4 4H7z" />
                 </svg>
             </div>
         ),

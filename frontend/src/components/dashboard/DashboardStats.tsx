@@ -8,7 +8,7 @@ import { CurrencyDisplay } from '../ui/CurrencyDisplay';
 import { DashboardStatsProps } from '@/redux/slices/redux.types';
 
 const DashboardStats: React.FC<DashboardStatsProps> = ({
-    persona, myProperties, myTrips, hostRequests, isLoading, stats, badges
+    persona, myProperties, myTrips, hostRequests, isLoading, stats, badges, totalEarned
 }) => {
     const totalPortfolioValue = myProperties.reduce((acc, p) => acc + (p.pricePerNight / 1_000_000), 0);
 
@@ -24,10 +24,8 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({
         ? Math.min(Math.round((bookedCount / Math.max(myProperties.length, 1)) * 100), 100)
         : null;
 
-    // Total earned from completed bookings (hostPayout is in micro-STX)
-    const totalEarned = (hostRequests ?? [])
-        .filter(b => b.status === 'completed')
-        .reduce((acc, b) => acc + (b.hostPayout ?? 0) / 1_000_000, 0);
+    // Total earned from completed bookings (passed from useDashboard)
+    const displayEarned = totalEarned || 0;
 
     if (isLoading && myProperties.length === 0 && myTrips.length === 0) {
         return <ProfileStatsSkeleton />;
@@ -45,8 +43,8 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({
                             </div>
                             <div className="text-xs text-[rgba(255,255,255,0.4)] mt-1">
                                 Secure on Bitcoin L2 • {myProperties.length} active listing{myProperties.length !== 1 ? 's' : ''}
-                                {totalEarned > 0 && (
-                                    <> • <CurrencyDisplay amount={totalEarned} /> earned</>
+                                {displayEarned > 0 && (
+                                    <> • <CurrencyDisplay amount={displayEarned} /> earned</>
                                 )}
                             </div>
                         </div>

@@ -66,7 +66,7 @@ const PersonaIntelligence: React.FC<PersonaIntelligenceProps> = ({
                             />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center flex-col">
-                            <span className="text-sm font-bold">{avgRating.toFixed(1)}</span>
+                            <span className="text-sm font-bold">{(avgRating || 0).toFixed(1)}</span>
                             <Star size={8} className="text-[var(--c-blue-azure)] fill-[var(--c-blue-azure)]" />
                         </div>
                     </div>
@@ -94,13 +94,13 @@ const PersonaIntelligence: React.FC<PersonaIntelligenceProps> = ({
                     </div>
                     <div className="flex flex-col items-center justify-center p-4 rounded-xl border-x border-black/5 hover:bg-white/50 transition-colors">
                         <TrendingUp size={16} className="text-[var(--c-blue-azure)] mb-2" />
-                        <div className="text-sm font-bold text-[var(--t-primary)]">{totalEarned.toFixed(1)}</div>
+                        <div className="text-sm font-bold text-[var(--t-primary)]">{(totalEarned || 0).toFixed(1)}</div>
                         <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">STX Value</div>
                     </div>
                     <div className="flex flex-col items-center justify-center p-4 rounded-xl hover:bg-white/50 transition-colors">
-                        <ShieldCheck size={16} className="text-emerald-500 mb-2" />
-                        <div className="text-sm font-bold text-[var(--t-primary)]">{totalReviews > 0 ? 'I' : '0'}</div>
-                        <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">Verified</div>
+                        <ShieldCheck size={16} className={`${totalReviews > 0 ? 'text-emerald-500' : 'text-black/10'} mb-2`} />
+                        <div className="text-sm font-bold text-[var(--t-primary)]">{totalReviews > 0 ? (totalReviews > 9 ? totalReviews : '1+') : '0'}</div>
+                        <div className="text-[8px] uppercase tracking-widest text-[var(--t-secondary)] font-bold">Protocol</div>
                     </div>
                 </div>
 

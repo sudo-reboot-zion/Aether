@@ -22,7 +22,7 @@ export default function DashboardPage() {
         handleOpenReview, isReviewDialogOpen, setIsReviewDialogOpen,
         selectedBookingForReview, submitReview, markAsReviewed,
         propertiesLoading, bookingsLoading,
-        stats, badges, userReviews
+        stats, badges, userReviews, totalEarned
     } = useDashboard();
     const { connectWallet } = useAuth();
 
@@ -82,6 +82,7 @@ export default function DashboardPage() {
                             isLoading={isLoading}
                             stats={stats}
                             badges={badges}
+                            totalEarned={totalEarned}
                         />
 
                         <DashboardContent
@@ -108,7 +109,7 @@ export default function DashboardPage() {
                             persona={persona}
                             stats={stats}
                             badges={badges}
-                            totalEarned={myProperties.reduce((acc: number, p: any) => acc + (p.pricePerNight / 1_000_000), 0)}
+                            totalEarned={totalEarned}
                         />
                     </div>
                 </div>

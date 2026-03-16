@@ -76,7 +76,11 @@ export async function getAllBookings(maxLimit = 100): Promise<Booking[]> {
 export async function getUserBookings(userAddress: string, maxBookings = 100): Promise<Booking[]> {
     try {
         const allBookings = await getAllBookings(maxBookings);
-        return allBookings.filter(b => b.guest === userAddress || b.host === userAddress);
+        const normalizedUser = userAddress.toLowerCase();
+        return allBookings.filter(b =>
+            b.guest.toLowerCase() === normalizedUser ||
+            b.host.toLowerCase() === normalizedUser
+        );
     } catch (error) {
         console.error("Error fetching user bookings:", error);
         return [];
@@ -86,7 +90,8 @@ export async function getUserBookings(userAddress: string, maxBookings = 100): P
 export async function getUserProperties(userAddress: string, maxProperties = 100): Promise<Property[]> {
     try {
         const allProperties = await getAllProperties(maxProperties);
-        return allProperties.filter(p => p.owner === userAddress);
+        const normalizedUser = userAddress.toLowerCase();
+        return allProperties.filter(p => p.owner.toLowerCase() === normalizedUser);
     } catch (error) {
         console.error("Error fetching user properties:", error);
         return [];

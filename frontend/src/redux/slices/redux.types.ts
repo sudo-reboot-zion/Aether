@@ -125,6 +125,7 @@ export interface DashboardStatsProps {
     isLoading?: boolean;
     stats?: { totalReviews: number; averageRating: number } | null;
     badges?: any[];
+    totalEarned?: number;
 }
 
 

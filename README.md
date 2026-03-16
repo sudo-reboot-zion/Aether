@@ -29,26 +29,26 @@ Standard rental platforms have become heavy with fees—often taking 15-20% from
 
 ## Key Features
 
-### Intelligent Discovery
-Beyond simple filters, Aether uses a RAG-powered (Retrieval-Augmented Generation) chat assistant. Guests can describe their ideal stay in natural language—*"I need a quiet workspace near the beach for under $100/night"*—and receive curated recommendations instantly.
+### Intelligent & Multimodal Discovery
+Beyond simple filters, Aether uses a RAG-powered (Retrieval-Augmented Generation) chat assistant. Guests can describe their ideal stay in natural language—*"I need a quiet workspace near the Swiss Alps for under 50 STX/night"*—and receive curated recommendations instantly, mapped across **8+ international locations** and unique categorical **"Vibes"** (Alpine, Coastal, Urban).
 
-### Trustless Escrow
-Payments are held in secure Clarity smart contracts. Funds are only released to the host after a successful check-in, protecting guests from fraud and hosts from chargebacks.
+### Real-Time Currency Engine
+Aether features a dynamic price conversion system. Users can toggle between **STX and USD** seamlessly, with real-time price feeds ensuring that guests know exactly what they are paying in fiat while settling in blockchain native currency.
 
-### Portable Reputation
-Your reviews and ratings aren't locked inside a corporate server. They live on-chain. As a guest or host, you build a verifiable reputation that belongs to you, including a badge system for reliability and cleanliness.
+### Trustless Escrow & Automated Policies
+Payments are held in secure Clarity smart contracts. Funds are only released to the host after a successful check-in, protecting guests from fraud. The protocol features automated, transparent cancellation and refund schedules (e.g., 100% refund >7 days out) built directly into the ledger.
 
-### Seamless Communication
-Integrated direct messaging allows guests and hosts to coordinate details before and during the stay. These messages are secure, timestamped, and linked to specific bookings for transparency.
+### Host Performance Analytics
+Property owners have access to a sophisticated **Analytics Dashboard**. Track real-time STX earnings, occupancy rates, and property performance through visual heatmaps and yield curves, allowing hosts to treat their rentals like a true decentralized business.
 
-### Automated Resolution & Policies
-Aether features transparent, automated cancellation and refund schedules (e.g., 100% refund >7 days out). If a dispute arises, a built-in resolution flow allows for evidence submission and automated processing based on on-chain data.
+### Portable On-Chain Reputation & Favorites
+Your profile isn't locked inside a corporate server. Reviews, ratings, and even **favorite properties** are stored on the Stacks blockchain. As a guest or host, you build a verifiable travel identity that follows you across the Web3 ecosystem, complete with a soulbound badge system.
 
-### Personalization & Preferences
-Guests can save favorite properties and define travel preferences (vibes, required amenities) which the AI assistant uses to further refine future recommendations.
+### Protocol-Linked Messaging
+Integrated direct messaging allows guests and hosts to coordinate details before and during the stay. These messages are linked to specific on-chain bookings, providing a secure and transparent communication trail for both parties.
 
-### Decentralized Storage
-To ensure true decentralization, all property data, metadata, and images are stored on **IPFS** via **Pinata**. This ensures that primary application data is never stored on a centralized server, maintaining a high level of transparency and permanency.
+### Decentralized Permanency
+To ensure true decentralization, all property metadata and images are stored on **IPFS** via **Pinata**. This ensures that the primary data layer is immutable, transparent, and independent of any centralized cloud provider.
 
 ---
 

@@ -8,8 +8,8 @@ import {
 
 import { CONTRACT_ADDRESS, CONTRACTS, NETWORK } from '../config';
 import { Review, UserStats } from '../../redux/slices/redux.types';
-
 import { rateLimiter } from '../rate-limiter';
+import { parseClarityNumber, parseClarityString } from '../parse-utils';
 
 export async function getReview(reviewId: number): Promise<Review | null> {
     try {
@@ -23,18 +23,19 @@ export async function getReview(reviewId: number): Promise<Review | null> {
         }));
 
         if (result.type === ClarityType.OptionalNone) return null;
-        if (result.type !== ClarityType.OptionalSome || !result.value) return null;
+        const innerValue = result.type === ClarityType.OptionalSome ? result.value : result;
+        if (!innerValue) return null;
 
-        const data = cvToValue(result.value);
+        const data = cvToValue(innerValue);
 
         return {
             id: reviewId,
-            bookingId: Number(data["booking-id"] || 0),
-            reviewer: data.reviewer,
-            reviewee: data.reviewee,
-            rating: Number(data.rating || 0),
-            comment: data.comment,
-            createdAt: Number(data["created-at"] || 0),
+            bookingId: parseClarityNumber(data["booking-id"]),
+            reviewer: parseClarityString(data.reviewer),
+            reviewee: parseClarityString(data.reviewee),
+            rating: parseClarityNumber(data.rating),
+            comment: parseClarityString(data.comment),
+            createdAt: parseClarityNumber(data["created-at"]),
         };
     } catch (error) {
         console.error("Error fetching review:", error);
@@ -53,18 +54,23 @@ export async function getUserStats(user: string): Promise<UserStats | null> {
             network: NETWORK,
         }));
 
-        if (result.type === ClarityType.OptionalNone) return null;
-        if (result.type !== ClarityType.OptionalSome || !result.value) return null;
+        if (result.type === ClarityType.OptionalNone) {
+            // Return zeroed stats instead of null to prevent NaN in components
+            return { totalReviews: 0, averageRating: 0 };
+        }
 
-        const data = cvToValue(result.value);
+        const innerValue = result.type === ClarityType.OptionalSome ? result.value : result;
+        if (!innerValue) return { totalReviews: 0, averageRating: 0 };
+
+        const data = cvToValue(innerValue);
 
         return {
-            totalReviews: Number(data["total-reviews"] || 0),
-            averageRating: Number(data["average-rating"] || 0),
+            totalReviews: parseClarityNumber(data["total-reviews"]),
+            averageRating: parseClarityNumber(data["average-rating"]),
         };
     } catch (error) {
         console.error("Error fetching user stats:", error);
-        return null;
+        return { totalReviews: 0, averageRating: 0 };
     }
 }
 
@@ -95,7 +101,7 @@ export async function getReviewCount(): Promise<number> {
             senderAddress: CONTRACT_ADDRESS,
             network: NETWORK,
         }));
-        return Number(cvToValue(result) || 0);
+        return parseClarityNumber(cvToValue(result));
     } catch (error) {
         console.error("Error fetching review count:", error);
         return 0;
@@ -112,7 +118,7 @@ export async function getUserAverageRating(user: string): Promise<number> {
             senderAddress: CONTRACT_ADDRESS,
             network: NETWORK,
         }));
-        return Number(cvToValue(result) || 0);
+        return parseClarityNumber(cvToValue(result));
     } catch (error) {
         console.error("Error fetching user average rating:", error);
         return 0;

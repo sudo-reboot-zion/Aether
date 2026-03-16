@@ -32,9 +32,17 @@ const bookingsSlice = createSlice({
         setBookings(state, action: PayloadAction<CachedBooking[]>) {
             const optimistic = state.items.filter(b => b.optimistic);
             const confirmed = action.payload;
+
+            // Filter out optimistic bookings that have a matching confirmed booking
+            // We match by ID or by (propertyId, checkIn, guest) triple to handle cases
+            // where the ID might have changed during confirmation
             const optimisticNotYetConfirmed = optimistic.filter(
-                ob => !confirmed.some(c => c.id === ob.id)
+                ob => !confirmed.some(c =>
+                    c.id === ob.id ||
+                    (c.propertyId === ob.propertyId && c.checkIn === ob.checkIn && c.guest === ob.guest)
+                )
             );
+
             state.items = [...confirmed, ...optimisticNotYetConfirmed];
             state.lastFetched = Date.now();
             state.isLoading = false;

@@ -13,7 +13,6 @@ export function useDashboard() {
 
     const { properties, fetchProperties, isLoading: propertiesLoading } = useProperties();
     const { bookings, fetchUserBookings, isLoading: bookingsLoading, releasePayment } = useBookings();
-    const { fetchUserStats } = useReputation(userAddress);
     const { badges, fetchUserBadges } = useBadges(userAddress);
 
     const [activeNav, setActiveNav] = useState('dashboard');
@@ -22,7 +21,17 @@ export function useDashboard() {
     const [reviewedBookingIds, setReviewedBookingIds] = useState<Set<number>>(new Set());
 
     const { raiseDispute, resolveDispute, fetchDisputeStatus } = useDispute();
-    const { submitReview, checkBookingReviewed, fetchUserStats: fetchUserStatsReputation, fetchUserReviews, reputationStats, userReviews } = useReputation(userAddress);
+    const {
+        submitReview,
+        checkBookingReviewed,
+        fetchUserStats: fetchUserStatsReputation,
+        fetchWrittenReviews,
+        fetchReceivedReviews,
+        stats: reputationStats,
+        receivedReviews,
+        writtenReviews,
+        isLoading: reputationLoading
+    } = useReputation(userAddress);
     const { confirm, prompt } = useAetherDialog();
 
     useEffect(() => {
@@ -31,9 +40,10 @@ export function useDashboard() {
             fetchUserBookings(userAddress);
             fetchUserBadges(userAddress);
             fetchUserStatsReputation(userAddress);
-            fetchUserReviews(userAddress);
+            fetchWrittenReviews(userAddress);
+            fetchReceivedReviews(userAddress);
         }
-    }, [fetchProperties, fetchUserBookings, fetchUserBadges, fetchUserStatsReputation, fetchUserReviews, userAddress]);
+    }, [fetchProperties, fetchUserBookings, fetchUserBadges, fetchUserStatsReputation, fetchWrittenReviews, fetchReceivedReviews, userAddress]);
 
     // Check review status for completed bookings
     useEffect(() => {
@@ -56,17 +66,22 @@ export function useDashboard() {
         checkReviews();
     }, [bookings, userAddress, checkBookingReviewed]);
 
-    const myProperties = properties.filter(p => userAddress && p.owner === userAddress);
+    const myProperties = properties.filter(p =>
+        userAddress && p.owner.toLowerCase() === userAddress.toLowerCase()
+    );
 
     // Show active stays and completed stays that need reviews
-    const myTrips = bookings.filter(b => b.guest === userAddress).map(b => ({
+    const myTrips = bookings.filter(b =>
+        b.guest.toLowerCase() === userAddress.toLowerCase()
+    ).map(b => ({
         ...b,
         hasReviewed: reviewedBookingIds.has(b.id)
     }));
 
     // Hosts should see confirmed and completed bookings (for earnings history)
     const hostRequests = bookings.filter(b =>
-        b.host === userAddress && (b.status === 'confirmed' || b.status === 'completed')
+        b.host.toLowerCase() === userAddress.toLowerCase() &&
+        (b.status === 'confirmed' || b.status === 'completed')
     );
 
     const handleOpenReview = useCallback((booking: any) => {
@@ -111,6 +126,13 @@ export function useDashboard() {
         setReviewedBookingIds(prev => new Set(prev).add(bookingId));
     }, []);
 
+    // Memoize stats to prevent unnecessary re-renders
+    const dashboardStats = {
+        totalEarned: hostRequests
+            .filter(b => b.status === 'completed')
+            .reduce((acc, b) => acc + (b.hostPayout || 0) / 1_000_000, 0)
+    };
+
     return {
         userData,
         persona,
@@ -132,7 +154,9 @@ export function useDashboard() {
         markAsReviewed,
         submitReview,
         stats: reputationStats,
-        userReviews,
-        badges
+        userReviews: receivedReviews, // For host dashboard "Recent Reviews"
+        writtenReviews,
+        badges,
+        totalEarned: dashboardStats.totalEarned
     };
 }

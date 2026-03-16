@@ -9,13 +9,15 @@ interface ReputationStats {
 
 interface ReputationState {
     stats: Record<string, ReputationStats>;
-    reviews: Record<string, any[]>; // Use specific Review type if easily imported, else any[]
+    receivedReviews: Record<string, any[]>;
+    writtenReviews: Record<string, any[]>;
     lastFetched: Record<string, number>;
 }
 
 const initialState: ReputationState = {
     stats: {},
-    reviews: {},
+    receivedReviews: {},
+    writtenReviews: {},
     lastFetched: {},
 };
 
@@ -27,8 +29,11 @@ const reputationSlice = createSlice({
             state.stats[action.payload.address] = action.payload.stats;
             state.lastFetched[action.payload.address] = Date.now();
         },
-        setReputationReviews(state, action: PayloadAction<{ address: string; reviews: any[] }>) {
-            state.reviews[action.payload.address] = action.payload.reviews;
+        setReceivedReviews(state, action: PayloadAction<{ address: string; reviews: any[] }>) {
+            state.receivedReviews[action.payload.address] = action.payload.reviews;
+        },
+        setWrittenReviews(state, action: PayloadAction<{ address: string; reviews: any[] }>) {
+            state.writtenReviews[action.payload.address] = action.payload.reviews;
         },
         invalidateUserStats(state, action: PayloadAction<string>) {
             delete state.lastFetched[action.payload];
@@ -36,5 +41,5 @@ const reputationSlice = createSlice({
     },
 });
 
-export const { setReputationStats, setReputationReviews, invalidateUserStats } = reputationSlice.actions;
+export const { setReputationStats, setReceivedReviews, setWrittenReviews, invalidateUserStats } = reputationSlice.actions;
 export default reputationSlice.reducer;
