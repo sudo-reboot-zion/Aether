@@ -100,6 +100,16 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_text()
+
+            # Ignore keepalive pings from the client
+            if data == '__ping__':
+                continue
+
+            # Broadcast typing signal to partner — don't save to DB
+            if data == '__typing__':
+                await manager.broadcast_to_room(room_id, '__typing__')
+                continue
+
             print(f"[WS] Received message from {user_address[:8]}: {data[:20]}...")
             
             # Save message

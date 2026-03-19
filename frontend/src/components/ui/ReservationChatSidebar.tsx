@@ -20,13 +20,14 @@ const ReservationChatSidebar = () => {
         (state: RootState) => state.bookingChat
     );
 
-    const { messages, isConnected, isLoadingHistory, sendMessage, userAddress } =
+    const { messages, isConnected, isLoadingHistory, isPartnerTyping, sendMessage, sendTyping, userAddress } =
         useWebSocketChat(isOpen ? activeBookingId : null, isOpen ? partnerAddress : null);
 
     const [inputValue, setInputValue] = useState('');
     const [pendingMessage, setPendingMessage] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const typingDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -60,9 +61,20 @@ const ReservationChatSidebar = () => {
         const text = inputValue.trim();
         if (!text || !isLoggedIn) return;
         setInputValue('');
+        // Cancel any pending typing debounce on send
+        if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
         if (isConnected) sendMessage(text);
         else setPendingMessage(text);
     }, [inputValue, isConnected, isLoggedIn, sendMessage]);
+
+    const handleInputChange = useCallback((val: string) => {
+        setInputValue(val);
+        // Debounce typing signal — fire at most once every 400ms
+        if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
+        typingDebounceRef.current = setTimeout(() => {
+            if (val.trim()) sendTyping();
+        }, 400);
+    }, [sendTyping]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') handleSend();
@@ -96,11 +108,11 @@ const ReservationChatSidebar = () => {
                             <MessageArea
                                 messages={messages} isLoggedIn={isLoggedIn}
                                 isLoadingHistory={isLoadingHistory} isConnected={isConnected}
-                                isInquiry={isInquiry} userAddress={userAddress}
-                                messagesEndRef={messagesEndRef}
+                                isInquiry={isInquiry} isPartnerTyping={isPartnerTyping}
+                                userAddress={userAddress} messagesEndRef={messagesEndRef}
                             />
                             <ChatInput
-                                inputValue={inputValue} setInputValue={setInputValue}
+                                inputValue={inputValue} setInputValue={handleInputChange}
                                 handleSend={handleSend} handleKeyDown={handleKeyDown}
                                 isConnected={isConnected} isLoggedIn={isLoggedIn}
                                 inputRef={inputRef}

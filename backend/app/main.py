@@ -48,13 +48,17 @@ app = FastAPI(
 )
 
 # Configure CORS - Allow production frontend
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://aether-iota-one.vercel.app",
+    # Covers all Vercel preview deployments (e.g. aether-git-fix-xyz.vercel.app)
+    "https://aether-ogor.onrender.com",  # allow Render's own origin for testing
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://aether-iota-one.vercel.app",
-        "https://aether-iota-one.vercel.app/"
-    ],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -83,7 +87,7 @@ async def root():
 async def trigger_indexing():
     """Trigger re-indexing of properties and knowledge base"""
     try:
-        print("🔄 Manual re-indexing triggered...")
+        print(" Manual re-indexing triggered...")
         
         # Index Knowledge Base
         kb_count = await knowledge_store.index_knowledge_base()

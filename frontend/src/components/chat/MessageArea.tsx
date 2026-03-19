@@ -9,6 +9,7 @@ interface MessageAreaProps {
     isLoadingHistory: boolean;
     isConnected: boolean;
     isInquiry: boolean;
+    isPartnerTyping: boolean;
     userAddress: string | null;
     messagesEndRef: React.RefObject<HTMLDivElement | null>;
 }
@@ -19,6 +20,7 @@ export const MessageArea: React.FC<MessageAreaProps> = ({
     isLoadingHistory,
     isConnected,
     isInquiry,
+    isPartnerTyping,
     userAddress,
     messagesEndRef
 }) => {
@@ -87,6 +89,23 @@ export const MessageArea: React.FC<MessageAreaProps> = ({
                     );
                 })
             )}
+
+            {/* Typing indicator bubble */}
+            {isPartnerTyping && (
+                <div className="flex justify-start">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center mr-3 shrink-0 font-sans text-[10px] font-bold text-white"
+                        style={{ background: 'linear-gradient(135deg, #3D7CB8, #1B4066)' }}>
+                        H
+                    </div>
+                    <div className="p-4 rounded-2xl rounded-tl-sm flex items-center gap-1.5"
+                        style={{ background: 'rgba(27,64,102,0.05)', border: '1px solid rgba(27,64,102,0.08)' }}>
+                        <span className="w-2 h-2 rounded-full bg-[#3D7CB8] animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <span className="w-2 h-2 rounded-full bg-[#3D7CB8] animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <span className="w-2 h-2 rounded-full bg-[#3D7CB8] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                </div>
+            )}
+
             <div ref={messagesEndRef} />
         </div>
     );

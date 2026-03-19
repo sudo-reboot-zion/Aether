@@ -14,8 +14,10 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
     const [messages, setMessages] = useState<ChatMessagePayload[]>([]);
     const [isConnected, setIsConnected] = useState(false);
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+    const [isPartnerTyping, setIsPartnerTyping] = useState(false);
 
     const socketRef = useRef<WebSocket | null>(null);
+    const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Fetch history when bookingId or partnerAddress changes
     useEffect(() => {
@@ -68,11 +70,7 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
             socketRef.current.close();
         }
 
-        const envWsUrl = process.env.NEXT_PUBLIC_WS_URL;
-        const fallbackWsUrl = typeof window !== 'undefined'
-            ? `wss://aether-ogor.onrender.com`
-            : 'wss://aether-ogor.onrender.com';
-        const wsUrl = envWsUrl || fallbackWsUrl;
+        const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'wss://aether-ogor.onrender.com';
 
         // URL format: /{booking_id}/{user_address}/{partner_address}
         const url = `${wsUrl}/ws/chat/${bookingId}/${userAddress}/${partnerAddress}`;
@@ -86,8 +84,18 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
         };
 
         ws.onmessage = (event) => {
+            // Handle non-JSON signals first
+            if (event.data === '__typing__') {
+                setIsPartnerTyping(true);
+                if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+                typingTimeoutRef.current = setTimeout(() => setIsPartnerTyping(false), 3000);
+                return;
+            }
             try {
                 const incomingMessage: ChatMessagePayload = JSON.parse(event.data);
+                // A real message arriving means partner stopped typing
+                setIsPartnerTyping(false);
+                if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
                 setMessages((prev) => [...prev, incomingMessage]);
             } catch (error) {
                 console.error("[Chat Hook] Failed to parse incoming WS message:", error);
@@ -106,7 +114,15 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
 
         socketRef.current = ws;
 
+        // Keepalive ping every 30s — Render drops idle WebSocket connections after 90s
+        const pingInterval = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send('__ping__');
+            }
+        }, 30000);
+
         return () => {
+            clearInterval(pingInterval);
             if (socketRef.current) {
                 socketRef.current.close();
             }
@@ -125,11 +141,19 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
         }
     }, [userAddress]);
 
+    const sendTyping = useCallback(() => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            socketRef.current.send('__typing__');
+        }
+    }, []);
+
     return {
         messages,
         isConnected,
         isLoadingHistory,
+        isPartnerTyping,
         sendMessage,
+        sendTyping,
         userAddress
     };
 };
