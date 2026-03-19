@@ -99,6 +99,8 @@ export default function DashboardPage() {
                             persona={persona}
                             hostRequests={hostRequests}
                             myTrips={myTrips}
+                            handleRelease={handleRelease}
+                            handleDispute={handleDispute}
                             handleResolveDispute={handleResolveDispute}
                             handleReview={handleOpenReview}
                             blockHeight={blockHeight}

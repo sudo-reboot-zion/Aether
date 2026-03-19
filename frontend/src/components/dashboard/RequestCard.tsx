@@ -12,11 +12,15 @@ const RequestCard: React.FC<RequestCardProps> = ({
     quote,
     onAccept,
     onDecline,
+    onReply,
+    onRelease,
+    onDispute,
     onResolveDispute,
     onReview,
     currentBlockHeight,
     checkInBlock
 }) => {
+    const isWaiting = Boolean(currentBlockHeight && checkInBlock && currentBlockHeight < checkInBlock);
     const isActionable = type === 'booking' || type === 'action_required' || type === 'completed';
 
     return (
@@ -98,13 +102,13 @@ const RequestCard: React.FC<RequestCardProps> = ({
                             <div className="flex gap-2">
                                 <button
                                     className={`flex-[2] h-10 rounded-full text-white text-[10px] font-bold uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2
-                                        ${(currentBlockHeight && checkInBlock && currentBlockHeight < checkInBlock)
+                                        ${isWaiting
                                             ? 'bg-gray-400 cursor-not-allowed opacity-60'
                                             : 'bg-[var(--c-blue-azure)] shadow-blue-500/10 hover:-translate-y-0.5'}`}
-                                    onClick={(currentBlockHeight && checkInBlock && currentBlockHeight < checkInBlock) ? undefined : onRelease}
-                                    disabled={currentBlockHeight && checkInBlock && currentBlockHeight < checkInBlock}
+                                    onClick={isWaiting ? undefined : onRelease}
+                                    disabled={isWaiting}
                                 >
-                                    {currentBlockHeight && checkInBlock && currentBlockHeight < checkInBlock ? (
+                                    {isWaiting ? (
                                         <><Clock className="w-3 h-3 animate-pulse" /> Waiting for Block {checkInBlock}</>
                                     ) : (
                                         <><CreditCard className="w-3 h-3" /> Release Payment</>

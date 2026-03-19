@@ -9,6 +9,7 @@ interface EscrowListProps {
     myTrips: any[];
     handleRelease: (id: number) => void;
     handleDispute: (id: number) => void;
+    handleResolveDispute: (bookingId: number) => void;
     handleReview?: (booking: any) => void;
     isCollapsed?: boolean;
     blockHeight?: number;
