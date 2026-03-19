@@ -22,7 +22,7 @@ export default function DashboardPage() {
         handleOpenReview, isReviewDialogOpen, setIsReviewDialogOpen,
         selectedBookingForReview, submitReview, markAsReviewed,
         propertiesLoading, bookingsLoading,
-        stats, badges, userReviews, totalEarned
+        stats, badges, userReviews, totalEarned, blockHeight
     } = useDashboard();
     const { connectWallet } = useAuth();
 
@@ -99,10 +99,9 @@ export default function DashboardPage() {
                             persona={persona}
                             hostRequests={hostRequests}
                             myTrips={myTrips}
-                            handleRelease={handleRelease}
-                            handleDispute={handleDispute}
                             handleResolveDispute={handleResolveDispute}
                             handleReview={handleOpenReview}
+                            blockHeight={blockHeight}
                         />
 
                         <PersonaIntelligence

@@ -69,7 +69,7 @@ const BookingSidebar = ({
             // Estimate block heights: 1 block ≈ 10 mins
             // Reduced from 144 (24h) to 1 for easier Testnet testing
             const currentHeight = blockHeight || 1000;
-            const checkIn = currentHeight + 1;
+            const checkIn = currentHeight;
             const checkOut = checkIn + (numNights * 144);
 
             await bookProperty(

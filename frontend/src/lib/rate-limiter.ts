@@ -11,7 +11,7 @@ class GlobalRateLimiter {
     private activeRequests = 0;
     private maxConcurrent = 1; // Strict sequential processing to avoid Hiro rate limits
     private lastRequestTime = 0;
-    private minDelay = 500; // Increased to 500ms to be more conservative with Hiro limits
+    private minDelay = 1000; // Increased to 1s to be even more conservative with Hiro testnet
 
     /**
      * Add a request to the queue
@@ -74,11 +74,15 @@ class GlobalRateLimiter {
                     if (isRateLimit || isNetworkError) {
                         if (retryCount < maxRetries) {
                             retryCount++;
-                            const delay = isRateLimit ? 3000 * Math.pow(2, retryCount - 1) : 1500 * Math.pow(2, retryCount - 1);
+                            const delay = isRateLimit ? 5000 * Math.pow(2, retryCount - 1) : 2000 * Math.pow(2, retryCount - 1);
 
-                            console.warn(`[RateLimiter] ${isRateLimit ? '429' : 'Network error'} detected: "${errorMessage}". Retrying in ${delay}ms (Attempt ${retryCount}/${maxRetries})`);
-
-                            await new Promise(resolve => setTimeout(resolve, delay));
+                            if (errorMessage.includes('fetch') || errorMessage.includes('cors')) {
+                                // Silently retry for common Hiro testnet flakiness to avoid console clutter
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                            } else {
+                                console.warn(`[RateLimiter] ${isRateLimit ? '429' : 'Network error'} detected: "${errorMessage}". Retrying in ${delay}ms (Attempt ${retryCount}/${maxRetries})`);
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                            }
                             this.lastRequestTime = Date.now();
                             continue; // Retry the loop
                         } else {

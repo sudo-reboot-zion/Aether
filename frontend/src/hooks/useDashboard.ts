@@ -6,6 +6,7 @@ import { useDispute } from '@/hooks/useDispute';
 import { useReputation } from '@/hooks/useReputation';
 import { useBadges } from '@/hooks/useBadges';
 import { useAetherDialog } from '@/hooks/useAetherDialog';
+import { useNetwork } from '@/hooks/useNetwork';
 
 export function useDashboard() {
     const { userData, persona } = useAuth();
@@ -14,6 +15,7 @@ export function useDashboard() {
     const { properties, fetchProperties, isLoading: propertiesLoading } = useProperties();
     const { bookings, fetchUserBookings, isLoading: bookingsLoading, releasePayment } = useBookings();
     const { badges, fetchUserBadges } = useBadges(userAddress);
+    const { blockHeight } = useNetwork();
 
     const [activeNav, setActiveNav] = useState('dashboard');
     const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
@@ -157,6 +159,7 @@ export function useDashboard() {
         userReviews: receivedReviews, // For host dashboard "Recent Reviews"
         writtenReviews,
         badges,
+        blockHeight,
         totalEarned: dashboardStats.totalEarned
     };
 }

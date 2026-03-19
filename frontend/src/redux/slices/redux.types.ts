@@ -166,6 +166,8 @@ export interface RequestCardProps {
     onDispute?: () => void;
     onResolveDispute?: () => void;
     onReview?: () => void;
+    currentBlockHeight?: number;
+    checkInBlock?: number;
 }
 export interface PropertyMetadata {
     title: string;
