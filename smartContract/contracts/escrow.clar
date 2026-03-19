@@ -250,11 +250,8 @@
             ;; 2. Only Guest or Host can release payment
             (asserts! (or (is-eq tx-sender guest) (is-eq tx-sender host)) ERR-NOT-AUTHORIZED)
 
-            ;; 3. Release check: Guest can release ANYTIME (for demo). Host can only release AFTER check-in.
-            (asserts! (if (is-eq tx-sender guest)
-                true
-                (>= stacks-block-height check-in-block)
-            ) ERR-NOT-AUTHORIZED)
+            ;; 3. Release check: Payment can only be released AFTER check-in.
+            (asserts! (>= stacks-block-height check-in-block) ERR-NOT-AUTHORIZED)
 
             ;; 4. Must have funds in escrow
             (asserts! (> escrowed-amount u0) ERR-INVALID-AMOUNT)
