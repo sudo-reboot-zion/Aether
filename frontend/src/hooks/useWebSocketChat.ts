@@ -92,11 +92,20 @@ export const useWebSocketChat = (bookingId: number | null, partnerAddress: strin
                 return;
             }
             try {
+                // If it's a raw string that isn't __typing__, it might be a weird signal — ignore it
+                if (typeof event.data === 'string' && (event.data === '__typing__' || event.data === '__ping__')) {
+                    return;
+                }
+
                 const incomingMessage: ChatMessagePayload = JSON.parse(event.data);
-                // A real message arriving means partner stopped typing
-                setIsPartnerTyping(false);
-                if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
-                setMessages((prev) => [...prev, incomingMessage]);
+
+                // Final safety: Only add to state if it has actual message properties
+                if (incomingMessage && incomingMessage.content && incomingMessage.sender_address) {
+                    // A real message arriving means partner stopped typing
+                    setIsPartnerTyping(false);
+                    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+                    setMessages((prev) => [...prev, incomingMessage]);
+                }
             } catch (error) {
                 console.error("[Chat Hook] Failed to parse incoming WS message:", error);
             }
