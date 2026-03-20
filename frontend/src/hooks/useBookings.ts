@@ -137,6 +137,15 @@ export function useBookings(userAddress?: string) {
     }, [dispatch, toast]);
 
     const releasePayment = useCallback(async (bookingId: number) => {
+        if (bookingId < 0) {
+            toast({
+                title: 'Booking Pending Confirmation',
+                description: 'This booking is still waiting for on-chain confirmation. Please wait a moment before releasing payment.',
+                variant: 'destructive',
+            });
+            return;
+        }
+
         setIsReleasing(true);
         try {
             // Pre-flight check: ask the contract if release is possible
