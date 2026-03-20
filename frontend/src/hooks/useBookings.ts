@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux';
 import {
@@ -9,7 +9,7 @@ import {
     selectIsStale
 } from '@/redux/slices/bookingsSlice';
 import { addPendingTx } from '@/redux/slices/pendingTxSlice';
-import { getUserBookings } from '@/lib/escrow';
+import { getUserBookings, canReleasePayment } from '@/lib/escrow';
 import { userSession } from '@/lib/stacks';
 import {
     bookProperty as bookPropertyTx,
@@ -17,10 +17,16 @@ import {
     cancelBooking as cancelBookingTx
 } from '@/lib/escrow';
 import { openContractCall } from '@stacks/connect';
+import { NETWORK } from '@/lib/config';
 import {
     Pc,
 } from "@stacks/transactions";
 import { useToast } from './useToast';
+
+const APP_DETAILS = {
+    name: 'Aether',
+    icon: typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png',
+};
 
 export function useBookings(userAddress?: string) {
     const dispatch = useDispatch();
@@ -28,6 +34,7 @@ export function useBookings(userAddress?: string) {
     const { items: bookings, lastFetched, isLoading, error } = useSelector(
         (state: RootState) => state.bookings
     );
+    const [isReleasing, setIsReleasing] = useState(false);
 
     const fetchUserBookings = useCallback(async (address: string, force = false) => {
         if (!force && !selectIsStale(lastFetched)) {
@@ -80,6 +87,8 @@ export function useBookings(userAddress?: string) {
             await openContractCall({
                 ...txOptions,
                 userSession,
+                network: NETWORK,
+                appDetails: APP_DETAILS,
                 postConditions: [postCondition],
                 onFinish: (data) => {
                     dispatch(addPendingTx({
@@ -110,6 +119,12 @@ export function useBookings(userAddress?: string) {
                     });
 
                     if (onSuccess) onSuccess(data.txId);
+                },
+                onCancel: () => {
+                    toast({
+                        title: 'Booking Cancelled',
+                        description: 'You cancelled the wallet transaction.',
+                    });
                 }
             });
         } catch (err) {
@@ -122,11 +137,26 @@ export function useBookings(userAddress?: string) {
     }, [dispatch, toast]);
 
     const releasePayment = useCallback(async (bookingId: number) => {
+        setIsReleasing(true);
         try {
+            // Pre-flight check: ask the contract if release is possible
+            const canRelease = await canReleasePayment(bookingId);
+            if (!canRelease) {
+                toast({
+                    title: 'Cannot Release Yet',
+                    description: 'The contract rejected the release. The booking may not be confirmed yet, or the check-in block has not been reached.',
+                    variant: 'destructive',
+                });
+                setIsReleasing(false);
+                return;
+            }
+
             const txOptions = releasePaymentTx(bookingId);
             await openContractCall({
                 ...txOptions,
                 userSession,
+                network: NETWORK,
+                appDetails: APP_DETAILS,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,
@@ -135,16 +165,26 @@ export function useBookings(userAddress?: string) {
                     }));
                     toast({
                         title: 'Release Initiated',
-                        description: 'Payment release transaction submitted.',
+                        description: `Payment release submitted! TX: ${data.txId.slice(0, 10)}...`,
                     });
+                    setIsReleasing(false);
+                },
+                onCancel: () => {
+                    toast({
+                        title: 'Release Cancelled',
+                        description: 'You dismissed the wallet. No payment was released.',
+                    });
+                    setIsReleasing(false);
                 }
             });
         } catch (err) {
+            console.error('[useBookings] releasePayment error:', err);
             toast({
                 title: 'Error',
-                description: 'Failed to release payment',
+                description: 'Failed to release payment. Please try again.',
                 variant: 'destructive',
             });
+            setIsReleasing(false);
         }
     }, [dispatch, toast]);
 
@@ -154,6 +194,8 @@ export function useBookings(userAddress?: string) {
             await openContractCall({
                 ...txOptions,
                 userSession,
+                network: NETWORK,
+                appDetails: APP_DETAILS,
                 onFinish: (data) => {
                     dispatch(addPendingTx({
                         txId: data.txId,
@@ -163,6 +205,12 @@ export function useBookings(userAddress?: string) {
                     toast({
                         title: 'Cancellation Initiated',
                         description: 'Cancellation transaction submitted.',
+                    });
+                },
+                onCancel: () => {
+                    toast({
+                        title: 'Cancellation Aborted',
+                        description: 'You dismissed the wallet. Booking was not cancelled.',
                     });
                 }
             });
@@ -178,6 +226,7 @@ export function useBookings(userAddress?: string) {
     return {
         bookings,
         isLoading,
+        isReleasing,
         error,
         fetchUserBookings,
         bookProperty,

@@ -13,6 +13,7 @@ interface EscrowListProps {
     handleReview?: (booking: any) => void;
     isCollapsed?: boolean;
     blockHeight?: number;
+    isReleasing?: boolean;
 }
 
 const EscrowList: React.FC<EscrowListProps> = ({
@@ -23,7 +24,8 @@ const EscrowList: React.FC<EscrowListProps> = ({
     handleDispute,
     handleResolveDispute,
     handleReview,
-    blockHeight
+    blockHeight,
+    isReleasing
 }) => {
     const activeItems = persona === 'HOST'
         ? hostRequests.filter(b => b.status === 'confirmed')
@@ -69,6 +71,7 @@ const EscrowList: React.FC<EscrowListProps> = ({
                                 onResolveDispute={persona === 'HOST' ? () => handleResolveDispute(booking.id) : undefined}
                                 currentBlockHeight={blockHeight}
                                 checkInBlock={booking.checkIn}
+                                isReleasing={isReleasing}
                             />
                         ))
                     )}

@@ -13,7 +13,7 @@ export function useDashboard() {
     const userAddress = userData?.profile?.stxAddress?.testnet || '';
 
     const { properties, fetchProperties, isLoading: propertiesLoading } = useProperties();
-    const { bookings, fetchUserBookings, isLoading: bookingsLoading, releasePayment } = useBookings();
+    const { bookings, fetchUserBookings, isLoading: bookingsLoading, isReleasing, releasePayment } = useBookings();
     const { badges, fetchUserBadges } = useBadges(userAddress);
     const { blockHeight } = useNetwork();
 
@@ -98,8 +98,12 @@ export function useDashboard() {
         );
         if (confirmed) {
             await releasePayment(bookingId);
+            // Auto-refetch bookings after release to update the UI
+            if (userAddress) {
+                setTimeout(() => fetchUserBookings(userAddress, true), 3000);
+            }
         }
-    }, [confirm, releasePayment]);
+    }, [confirm, releasePayment, userAddress, fetchUserBookings]);
 
     const handleDispute = useCallback(async (bookingId: number) => {
         const reason = await prompt(
@@ -160,6 +164,7 @@ export function useDashboard() {
         writtenReviews,
         badges,
         blockHeight,
+        isReleasing,
         totalEarned: dashboardStats.totalEarned
     };
 }

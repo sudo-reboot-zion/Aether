@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getCurrentBlockHeight } from '@/lib/network';
 
 export function useNetwork() {
-    const [blockHeight, setBlockHeight] = useState<number>(0);
+    const [blockHeight, setBlockHeight] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

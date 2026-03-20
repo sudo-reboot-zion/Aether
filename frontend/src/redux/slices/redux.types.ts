@@ -168,6 +168,7 @@ export interface RequestCardProps {
     onReview?: () => void;
     currentBlockHeight?: number;
     checkInBlock?: number;
+    isReleasing?: boolean;
 }
 export interface PropertyMetadata {
     title: string;
